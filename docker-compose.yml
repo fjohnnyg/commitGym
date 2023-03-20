@@ -1,0 +1,21 @@
+services:
+  postgres:
+    container_name: commitGym
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres:/data/commitGym_DB
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
