@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +37,16 @@ public class User {
     private List<Role> roles;
     @Column(nullable = false)
     private String password;
-    @OneToMany (mappedBy = "client", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<FitnessTest> myFitnessTest;
-    @OneToMany (mappedBy = "personalTrainer", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<FitnessTest> fitnessTestDone;
+    @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_fitnessTests",
+    joinColumns = {@JoinColumn(name = "client_id")},
+    inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
+    private List<FitnessTest> myFitnessTests = new ArrayList<>();
+    @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_fitnessTests",
+            joinColumns = {@JoinColumn(name = "personalTrainer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
+    private List<FitnessTest> fitnessTestsDone;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private List<Specializations> specializations;

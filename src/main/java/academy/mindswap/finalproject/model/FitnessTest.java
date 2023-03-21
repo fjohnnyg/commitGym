@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,16 +13,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "fitness_test")
+@Table(name = "fitness_tests")
 public class FitnessTest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    private User personalTrainer;
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    private User client;
+    @ManyToMany(mappedBy = "myFitnessTests", fetch = FetchType.EAGER)
+    private List<User> personalTrainers;
+    @ManyToMany(mappedBy = "fitnessTestsDone", fetch = FetchType.EAGER)
+    private List<User> client;
     @Column(nullable = false)
     private LocalDateTime date;
     @Column
@@ -35,5 +36,4 @@ public class FitnessTest {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Goal goal;
-
 }
