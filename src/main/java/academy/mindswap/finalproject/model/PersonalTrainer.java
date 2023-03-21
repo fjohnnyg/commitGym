@@ -2,16 +2,18 @@ package academy.mindswap.finalproject.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Getter
-@Setter
+import java.util.Date;
+
+@Data
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "personal_trainer")
-public class PersonalTrainer implements User{
+public class PersonalTrainer implements User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,9 +23,13 @@ public class PersonalTrainer implements User{
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
-    private int age;
+    private Date birthday;
     @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false, unique = true)
+    private String userName;
+    @Column(nullable = false)
+    private String password;
     @Enumerated(EnumType.STRING)
     private Specializations specializations;
 }

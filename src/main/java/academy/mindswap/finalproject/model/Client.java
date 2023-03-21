@@ -3,8 +3,10 @@ package academy.mindswap.finalproject.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
+import java.util.Date;
+import java.util.List;
+
+@Data
 @Builder
 @ToString
 @NoArgsConstructor
@@ -20,14 +22,14 @@ public class Client implements User{
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false)
-    private int age;
+    private Date birthDate;
     @Column(nullable = false, unique = true)
     private String email;
-    @Enumerated(EnumType.STRING)
-    private Goal goal;
-    private int weight;
-    private int height;
-    private int bodyFat;
-    private int imc;
+    @Column(nullable = false, unique = true)
+    private String userName;
+    @Column(nullable = false)
+    private String password;
+    @Column
+    private List<FitnessTest> fitnessTestList;
 
 }

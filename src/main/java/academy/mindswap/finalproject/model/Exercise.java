@@ -1,5 +1,5 @@
 package academy.mindswap.finalproject.model;
 
-public enum Specializations {
+public class Exercise {
 
 }
