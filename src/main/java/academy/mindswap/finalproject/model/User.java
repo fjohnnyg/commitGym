@@ -32,9 +32,11 @@ public class User {
     private String email;
     @Column(nullable = false, unique = true)
     private String userName;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private List<Role> roles;
+    private Role role;
+
     @Column(nullable = false)
     private String password;
     @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
@@ -47,7 +49,9 @@ public class User {
             joinColumns = {@JoinColumn(name = "personalTrainer_id")},
             inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
     private List<FitnessTest> fitnessTestsDone;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private List<Specializations> specializations;
+    @Column
+    private Specializations specializations;
+
 }
