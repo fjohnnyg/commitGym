@@ -27,6 +27,7 @@ public class FitnessTest {
     private int bodyFat;
     private int imc;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Goal goal;
 
 }

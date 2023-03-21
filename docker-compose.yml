@@ -1,16 +1,16 @@
 services:
   postgres:
-    container_name: commitGym
-    image: postgres
+    container_name: mindswap-mysql
+    image: mysql:latest
     environment:
-      POSTGRES_USER: username
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
     volumes:
-      - postgres:/data/commitGym_DB
+      - /var/lib/mysql
     ports:
-      - "5432:5432"
+      - "3306:3306"
     networks:
-      - postgres
+      - mysql
     restart: unless-stopped
 
 networks:

@@ -1,8 +1,8 @@
 package academy.mindswap.finalproject.model;
+
+
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -11,12 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "gym")
-public class Gym {
-
-    private List<Event> events;
-    private List<User> userClient;
-    private List<User> userPersonalTrainers;
+@Table(name = "events")
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
