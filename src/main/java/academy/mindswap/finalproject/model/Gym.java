@@ -5,7 +5,7 @@ import jakarta.persistence.Table;
 import lombok.*;
 
 import java.util.List;
-@Getter
+/*@Getter
 @Setter
 @Builder
 @ToString
@@ -18,4 +18,4 @@ public class Gym {
     private List<Event> events;
     private List<Client> clients;
     private List<PersonalTrainer> personalTrainers;
-}
+}*/

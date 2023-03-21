@@ -3,26 +3,29 @@ package academy.mindswap.finalproject.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
-@Data
+@Getter
+@Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "fitness_test")
-public class FitnessTest implements Event{
+public class FitnessTest {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Column(nullable = false)
-    private PersonalTrainer personalTrainer;
+    private String personalTrainer;
+    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+    private User client;
     @Column(nullable = false)
-    private Client client;
+    private Data date;
     private int weight;
     private int height;
     private int bodyFat;
     private int imc;
-    @Column(nullable = false)
-    private Date date;
     @Enumerated(EnumType.STRING)
     private Goal goal;
 
