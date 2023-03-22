@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-
-    @Autowired
     UserRepository userRepository;
     UserMapper userMapper;
+
+    @Autowired
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
     public UserDto getUserById(Long userId) {
         User user = userRepository.getReferenceById(userId);
