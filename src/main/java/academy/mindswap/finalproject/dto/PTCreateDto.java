@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserCreateDto {
+public class PTCreateDto {
 
     @NotBlank(message = "Must have a first name")
     private String firstName;
@@ -39,6 +39,11 @@ public class UserCreateDto {
     @Min(value = 8, message = "Password must be at least 8 characters long")
     @NotBlank (message = "Must have a password")
     private String password;
+
+
+    @NotBlank (message = "Must have a specialization")
+    private Specializations specializations;
+
 
 
 
