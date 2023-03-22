@@ -1,8 +1,8 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.converter.UserConverter;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
+import academy.mindswap.finalproject.mapper.UserMapper;
 import academy.mindswap.finalproject.model.User;
 import academy.mindswap.finalproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +14,17 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    UserMapper userMapper;
 
-    UserConverter userConverter = new UserConverter();
     public UserDto getUserById(Long userId) {
         User user = userRepository.getReferenceById(userId);
-        return userConverter.fromUserEntityToUserDto(user);
+        return userMapper.fromUserEntityToUserDto(user);
     }
 
     public UserDto createUser(UserCreateDto userCreateDto) {
-        User user = userConverter.fromUserCreateDtoToEntity(userCreateDto);
+        User user = userMapper.fromUserCreateDtoToEntity(userCreateDto);
         user = userRepository.save(user);
-        return userConverter.fromUserEntityToUserDto(user);
+        return userMapper.fromUserEntityToUserDto(user);
     }
 
     public UserDto updateUser(Long id, UserDto userDto) {
