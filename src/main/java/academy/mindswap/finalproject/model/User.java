@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "clients")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,12 +33,19 @@ public class User {
     @Column(nullable = false, unique = true)
     private String userName;
 
+    /*
     @Enumerated(EnumType.STRING)
     @Column
     private Role role;
 
+     */
+
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<FitnessTest> myFitnessTest = new ArrayList<>();
+
     @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "user_fitnessTests",
     joinColumns = {@JoinColumn(name = "client_id")},
@@ -50,8 +57,11 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
     private List<FitnessTest> fitnessTestsDone;
 
+    /*
     @Enumerated(EnumType.STRING)
     @Column
     private Specializations specializations;
+
+     */
 
 }

@@ -1,27 +1,28 @@
 package academy.mindswap.finalproject.controller;
 
+import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
+import academy.mindswap.finalproject.service.FitnessTestService;
 import academy.mindswap.finalproject.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     private UserService userService;
+    private FitnessTestService fitnessTestService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService, FitnessTestService fitnessTestService){
         this.userService = userService;
+        this.fitnessTestService = fitnessTestService;
     }
 
     @GetMapping("/{id}")
@@ -43,8 +44,14 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Optional> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/{id}/{schedule-fitness-test}")
+    public ResponseEntity<Optional> scheduleFitnessTest(@PathVariable Long id, @RequestBody FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule){
+        fitnessTestService.schedule(id, fitnessTestCreateDtoBySchedule);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
