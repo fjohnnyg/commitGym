@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper) {

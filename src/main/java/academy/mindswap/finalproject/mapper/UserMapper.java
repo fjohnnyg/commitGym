@@ -1,16 +1,16 @@
 package academy.mindswap.finalproject.mapper;
 
-import academy.mindswap.finalproject.dto.PTCreateDto;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import academy.mindswap.finalproject.model.enums.Role;
-import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.model.classes.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    default UserDto fromUserEntityToUserDto(User user){
+   UserDto fromUserEntityToUserDto(User user);
+   User fromUserCreateDtoToEntity(UserCreateDto userCreatedDto);
+
+    /*{
         UserDto.UserDtoBuilder userDto = UserDto.builder();
 
         userDto.firstName( user.getFirstName() );
@@ -20,8 +20,13 @@ public interface UserMapper {
 
         return userDto.build();
     };
-    User fromUserCreateDtoToEntity(UserCreateDto userCreatedDto);
-    default PTCreateDto fromPTCreateDtoToEntity(PTCreateDto ptCreateDto){
+
+     */
+
+
+    /*PTCreateDto fromPTCreateDtoToEntity(PTCreateDto ptCreateDto)
+    {
+
         PTCreateDto.PTCreateDtoBuilder pTCreateDto = PTCreateDto.builder();
 
         pTCreateDto.firstName( ptCreateDto.getFirstName() );
@@ -35,5 +40,10 @@ public interface UserMapper {
 
         return pTCreateDto.build();
     };
+
+     */
+
+
+
 
 }
