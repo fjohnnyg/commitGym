@@ -31,9 +31,11 @@ public class UserCreateDto {
     @NotBlank(message = "Must have a username")
     private String userName;
 
-
+/*
     @NotBlank(message = "Must have a role")
     private Role role;
+
+ */
 
 
     @Min(value = 8, message = "Password must be at least 8 characters long")

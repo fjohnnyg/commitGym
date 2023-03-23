@@ -31,8 +31,11 @@ public class UserDto {
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email")
     private String email;
 
+    /*
     @NotBlank(message = "Must have a role")
     private Role role;
+
+     */
 
 
     /*
@@ -42,8 +45,11 @@ public class UserDto {
 
      */
 
+    /*
     @NotBlank (message = "Must have a specialization")
     private Specializations specializations;
+
+     */
 
 
 }
