@@ -20,6 +20,6 @@ public class Workout {
     private Long id;
     @Column(nullable = false)
     private LocalDateTime date;
-    @OneToMany(mappedBy = "workout")
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<Set> sets;
 }
