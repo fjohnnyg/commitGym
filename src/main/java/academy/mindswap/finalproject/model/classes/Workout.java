@@ -1,0 +1,25 @@
+package academy.mindswap.finalproject.model.classes;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Getter
+@Setter
+@Builder
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "workouts")
+public class Workout {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private LocalDateTime date;
+    @OneToMany(mappedBy = "workout")
+    private List<Set> sets;
+}

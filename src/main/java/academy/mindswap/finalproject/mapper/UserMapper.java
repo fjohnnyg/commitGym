@@ -3,11 +3,9 @@ package academy.mindswap.finalproject.mapper;
 import academy.mindswap.finalproject.dto.PTCreateDto;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import academy.mindswap.finalproject.model.Role;
-import academy.mindswap.finalproject.model.Specializations;
-import academy.mindswap.finalproject.model.User;
-import jakarta.validation.groups.Default;
-import lombok.Builder;
+import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
+import academy.mindswap.finalproject.model.classes.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

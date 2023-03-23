@@ -1,5 +1,6 @@
-package academy.mindswap.finalproject.model;
+package academy.mindswap.finalproject.model.classes;
 
+import academy.mindswap.finalproject.model.enums.Goal;
 import jakarta.persistence.*;
 import lombok.*;
 

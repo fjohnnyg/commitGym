@@ -1,7 +1,7 @@
 package academy.mindswap.finalproject.dto;
 
-import academy.mindswap.finalproject.model.Role;
-import academy.mindswap.finalproject.model.Specializations;
+import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import jakarta.validation.constraints.*;
 import lombok.*;
 

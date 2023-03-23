@@ -3,7 +3,7 @@ package academy.mindswap.finalproject.service;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.mapper.UserMapper;
-import academy.mindswap.finalproject.model.User;
+import academy.mindswap.finalproject.model.classes.User;
 import academy.mindswap.finalproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

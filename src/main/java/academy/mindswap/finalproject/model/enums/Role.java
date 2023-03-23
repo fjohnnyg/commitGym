@@ -1,4 +1,4 @@
-package academy.mindswap.finalproject.model;
+package academy.mindswap.finalproject.model.enums;
 
 public enum Role {
     ADMIN,
