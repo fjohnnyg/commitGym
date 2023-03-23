@@ -28,10 +28,18 @@ public class Exercise {
     @Column(nullable = false)
     private Equipment equipment;
 
+    @OneToMany(mappedBy = "exercises", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<Set> sets;
+
+
+/*
     @ManyToMany (targetEntity = Set.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "exercise_sets",
             joinColumns = {@JoinColumn(name = "exercise_id")},
             inverseJoinColumns = {@JoinColumn(name = "set_id")})
+
     private List<Set> setList = new ArrayList<>();
+
+ */
 
 }

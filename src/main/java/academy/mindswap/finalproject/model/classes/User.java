@@ -57,6 +57,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
     private List<FitnessTest> fitnessTestsDone;
 
+    @ManyToOne(targetEntity = Workout.class, fetch = FetchType.EAGER)
+    private List<Workout> workouts;
+
     /*
     @Enumerated(EnumType.STRING)
     @Column

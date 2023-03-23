@@ -26,8 +26,11 @@ public class Set {
     private int rest;
     @Column(nullable = false)
     private int load;
-    @ManyToMany(mappedBy = "setList", fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Exercise.class, fetch = FetchType.EAGER)
     private List<Exercise> exercises;
-    @ManyToOne
-    private Workout workout;
+
+
+    @OneToMany(mappedBy = "sets", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<Workout> workouts;
+
 }
