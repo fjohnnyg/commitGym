@@ -5,12 +5,12 @@ import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.service.FitnessTestService;
 import academy.mindswap.finalproject.service.UserService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -44,13 +44,14 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Optional> deleteUser(@PathVariable Long id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/{id}/{schedule-fitness-test}")
-    public ResponseEntity<Optional> scheduleFitnessTest(@PathVariable Long id, @RequestBody FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule){
+
+    @PostMapping("/{id}/schedule-fitness-test")
+    public ResponseEntity<Void> scheduleFitnessTest(@PathVariable Long id, @RequestBody FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule){
         fitnessTestService.schedule(id, fitnessTestCreateDtoBySchedule);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
