@@ -2,41 +2,13 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import academy.mindswap.finalproject.mapper.UserMapper;
-import academy.mindswap.finalproject.model.classes.User;
-import academy.mindswap.finalproject.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.stereotype.Service;
+public interface UserService {
+    UserDto getUserById(Long userId);
 
-@Service
-public class UserService {
-    private UserRepository userRepository;
+    UserDto createUser(UserCreateDto userCreateDto);
 
-    private UserMapper userMapper;
+    UserDto updateUser(Long id, UserDto userDto);
 
-    @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
-
-    public UserDto getUserById(Long userId) {
-        User user = userRepository.getReferenceById(userId);
-        return userMapper.fromUserEntityToUserDto(user);
-    }
-
-    public UserDto createUser(UserCreateDto userCreateDto) {
-        User user = userMapper.fromUserCreateDtoToEntity(userCreateDto);
-        user = userRepository.save(user);
-        return userMapper.fromUserEntityToUserDto(user);
-    }
-
-    public UserDto updateUser(Long id, UserDto userDto) {
-        return null;
-    }
-
-    public void deleteUser(Long userId) {
-        userRepository.deleteById(userId);
-    }
+    void deleteUser(Long userId);
 }

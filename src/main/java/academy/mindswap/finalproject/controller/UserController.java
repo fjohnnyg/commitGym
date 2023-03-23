@@ -3,9 +3,8 @@ package academy.mindswap.finalproject.controller;
 import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import academy.mindswap.finalproject.service.FitnessTestService;
+import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private UserService userService;
-    private FitnessTestService fitnessTestService;
+    private FitnessTestServiceImpl fitnessTestService;
 
     @Autowired
-    public UserController(UserService userService, FitnessTestService fitnessTestService){
+    public UserController(UserService userService, FitnessTestServiceImpl fitnessTestService){
         this.userService = userService;
         this.fitnessTestService = fitnessTestService;
     }

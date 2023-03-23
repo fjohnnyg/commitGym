@@ -1,4 +1,4 @@
 package academy.mindswap.finalproject.service;
 
-public interface FitnessTestService {
+public class PTServiceImpl implements PTService {
 }
