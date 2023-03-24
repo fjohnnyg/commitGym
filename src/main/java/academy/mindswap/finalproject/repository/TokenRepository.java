@@ -1,6 +1,7 @@
 package academy.mindswap.finalproject.repository;
 
-import ch.qos.logback.core.subst.Token;
+
+import academy.mindswap.finalproject.model.entities.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -2,12 +2,16 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
+import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.mapper.UserMapper;
 import academy.mindswap.finalproject.model.entities.User;
 import academy.mindswap.finalproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -42,5 +46,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    public UserDto setRoleClient(String userEmail) {
+        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
+        return
+        optionalUser.map(userMapper::fromUserEntityToUserDto).orElseThrow(() -> new UserNotFoundException());
+
+
     }
 }

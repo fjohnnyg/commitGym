@@ -31,6 +31,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ADMIN)
                 .build();
         User savedUser = repository.save(user);
         String jwtToken = jwtService.generateToken(user);
@@ -62,7 +63,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        User user = repository.findByUserName(request.getUsername())
+        User user = repository.findByUsername(request.getUsername())
                 .orElseThrow();
         var jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);

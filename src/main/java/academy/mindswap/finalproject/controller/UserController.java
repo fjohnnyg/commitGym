@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 
 @RestController
 @RequestMapping("/user")
@@ -54,6 +56,14 @@ public class UserController {
         fitnessTestService.schedule(id, fitnessTestCreateDtoBySchedule);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
+
+    @PutMapping("")
+    public ResponseEntity<UserDto> setRoleClient(Principal principal) {
+        String userEmail = principal.getName();
+        UserDto userDto = userService.setRoleClient(userEmail);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
 
 
 

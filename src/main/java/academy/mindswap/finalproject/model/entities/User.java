@@ -49,6 +49,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    private Role role;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Client client;
 
