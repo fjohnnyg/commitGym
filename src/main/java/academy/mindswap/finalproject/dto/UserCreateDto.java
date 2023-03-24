@@ -28,7 +28,7 @@ public class UserCreateDto {
     private String email;
 
     @NotBlank(message = "Must have a username")
-    private String userName;
+    private String username;
 
 /*
     @NotBlank(message = "Must have a role")

@@ -3,6 +3,7 @@ package academy.mindswap.finalproject.service;
 import academy.mindswap.finalproject.auth.AuthenticationRequest;
 import academy.mindswap.finalproject.auth.AuthenticationResponse;
 import academy.mindswap.finalproject.auth.RegisterRequest;
+import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.model.entities.Token;
 import academy.mindswap.finalproject.model.entities.User;
 import academy.mindswap.finalproject.model.enums.Role;
@@ -25,11 +26,13 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse registerUser(RegisterRequest request) {
+    public AuthenticationResponse registerUser(UserCreateDto request) {
         User user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
+                .birthDate(request.getBirthDate())
                 .email(request.getEmail())
+                .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.ADMIN)
                 .build();
