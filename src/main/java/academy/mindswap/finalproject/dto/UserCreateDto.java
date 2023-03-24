@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -30,12 +31,8 @@ public class UserCreateDto {
     @NotBlank(message = "Must have a username")
     private String username;
 
-/*
     @NotBlank(message = "Must have a role")
     private Role role;
-
- */
-
 
     @Min(value = 8, message = "Password must be at least 8 characters long")
     @NotBlank (message = "Must have a password")

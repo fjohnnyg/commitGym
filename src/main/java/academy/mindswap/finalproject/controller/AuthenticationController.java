@@ -23,7 +23,7 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> registerUser(@RequestBody UserCreateDto request) {
         return ResponseEntity.ok(authenticationService.registerUser(request));
     }
-    @PostMapping("/adminRegister")
+    @PostMapping("/register-admin")
     public ResponseEntity<AuthenticationResponse> adminRegister(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.adminRegister(request));
     }
