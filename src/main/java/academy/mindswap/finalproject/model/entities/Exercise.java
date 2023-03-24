@@ -1,9 +1,9 @@
-package academy.mindswap.finalproject.model.classes;
+package academy.mindswap.finalproject.model.entities;
 
 import academy.mindswap.finalproject.model.enums.Equipment;
 import jakarta.persistence.*;
 import lombok.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Getter
@@ -29,7 +29,7 @@ public class Exercise {
     private Equipment equipment;
 
     @OneToMany(mappedBy = "exercises", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Set> sets;
+    private List<Workout> sets;
 
 
 /*

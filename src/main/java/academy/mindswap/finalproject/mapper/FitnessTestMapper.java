@@ -1,8 +1,7 @@
 package academy.mindswap.finalproject.mapper;
 
 import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
-import academy.mindswap.finalproject.model.classes.FitnessTest;
-import academy.mindswap.finalproject.model.enums.Goal;
+import academy.mindswap.finalproject.model.entities.FitnessTest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,9 +1,8 @@
-package academy.mindswap.finalproject.model.classes;
+package academy.mindswap.finalproject.model.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Duration;
 import java.util.List;
 
 @Getter
@@ -13,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "sets")
-public class Set {
+@Table(name = "workouts")
+public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -30,7 +29,7 @@ public class Set {
     private List<Exercise> exercises;
 
 
-    @OneToMany(mappedBy = "sets", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Workout> workouts;
+    @OneToMany(mappedBy = "workouts", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<DailyPlan> DailyPlans;
 
 }

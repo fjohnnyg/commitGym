@@ -1,11 +1,9 @@
-package academy.mindswap.finalproject.model.classes;
+package academy.mindswap.finalproject.model.entities;
 
-import academy.mindswap.finalproject.model.enums.Goal;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -22,21 +20,26 @@ public class FitnessTest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    private User user;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
-    @ManyToMany(mappedBy = "myFitnessTests", fetch = FetchType.EAGER)
-    private List<User> personalTrainers;
-    @ManyToMany(mappedBy = "fitnessTestsDone", fetch = FetchType.EAGER)
-    private List<User> client;
+    @ManyToOne
+    @JoinColumn(name = "personal_trainer_id")
+    private PersonalTrainer personalTrainer;
+
     @Column(nullable = false)
     private LocalDate date;
+
     @Column(nullable = true)
     private int weight;
+
     @Column(nullable = true)
     private int height;
+
     @Column(nullable = true)
     private int bodyFat;
+
     @Column(nullable = true)
     private int imc;
 

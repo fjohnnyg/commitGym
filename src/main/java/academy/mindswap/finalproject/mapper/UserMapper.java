@@ -2,7 +2,7 @@ package academy.mindswap.finalproject.mapper;
 
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import academy.mindswap.finalproject.model.classes.User;
+import academy.mindswap.finalproject.model.entities.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

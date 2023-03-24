@@ -2,7 +2,7 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
-import academy.mindswap.finalproject.model.classes.FitnessTest;
+import academy.mindswap.finalproject.model.entities.FitnessTest;
 import academy.mindswap.finalproject.repository.FitnessTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
