@@ -32,7 +32,7 @@ public class UserCreateDto {
     private String username;
 
     @NotBlank(message = "Must have a role")
-    private Role role;
+    private Set<Role> roles;
 
     @Min(value = 8, message = "Password must be at least 8 characters long")
     @NotBlank (message = "Must have a password")

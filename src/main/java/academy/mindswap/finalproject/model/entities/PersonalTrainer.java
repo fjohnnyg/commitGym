@@ -29,4 +29,8 @@ public class PersonalTrainer {
     private List<FitnessTest> fitnessTests;
     @ManyToOne(targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlansPrescribed;
+
+    public PersonalTrainer(User user) {
+        this.user = user;
+    }
 }

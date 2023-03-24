@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class PTCreateDto {
+public class PersonalTrainerCreateDto {
 
     @NotBlank(message = "Must have a first name")
     private String firstName;
