@@ -1,29 +1,19 @@
 package academy.mindswap.finalproject.mapper;
 
-import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
+import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
+import academy.mindswap.finalproject.dto.FitnessTestDto;
 import academy.mindswap.finalproject.model.entities.FitnessTest;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface FitnessTestMapper {
 
-    FitnessTest fromFitnessTestCreateDtoScheduleToEntity(FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule);
+    FitnessTest fromFitnessTestCreateDtoScheduleToEntity(FitnessTestCreateDto fitnessTestCreateDto);
 
-    /*
-    default FitnessTest fromFitnessTestCreateDtoScheduleToEntity(FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule){
+    FitnessTestCreateDto fromEntityToFitnessTestCreateDtoSchedule(FitnessTest fitnessTest);
 
-        FitnessTest.FitnessTestBuilder fitnessTest = FitnessTest.builder();
+    FitnessTestDto fromEntityToFitnessTestDto(FitnessTest fitnessTest);
 
-        fitnessTest.date((fitnessTestCreateDtoBySchedule.getDate()));
-        fitnessTest.weight(0);
-        fitnessTest.height(0);
-        fitnessTest.imc(0);
-        fitnessTest.goal(Goal.GENERIC);
 
-        return fitnessTest.build();
-
-    };
-
-     */
 
 }

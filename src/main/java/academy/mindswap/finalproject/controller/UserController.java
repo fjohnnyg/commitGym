@@ -1,17 +1,13 @@
 package academy.mindswap.finalproject.controller;
 
-import academy.mindswap.finalproject.auth.AuthenticationRequest;
-import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
-import academy.mindswap.finalproject.dto.UserCreateDto;
+import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
+import academy.mindswap.finalproject.dto.FitnessTestDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +28,6 @@ public class UserController {
         this.fitnessTestService = fitnessTestService;
     }
 
-    /*
-    @GetMapping("/my-profile")
-    public ResponseEntity<UserDto> getMyProfile() {
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = user.getUsername();
-        UserDto userProfile = userService.getProfile(username);
-        return new ResponseEntity<>(userProfile, HttpStatus.OK);
-    }
-
-     */
-
     @GetMapping("/profile")
     public ResponseEntity<UserDto> getMyProfile() {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -51,19 +36,13 @@ public class UserController {
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
-    @GetMapping
 
-
-    @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserCreateDto user) {
-        UserDto savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto){
-        UserDto updatedUser = userService.updateUser(id, userDto);
-        return new ResponseEntity<>(updatedUser, HttpStatus.ACCEPTED);
+    @PutMapping("/profile-update")
+    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        UserDto userProfile = userService.updateUserProfile(username,userDto);
+        return new ResponseEntity<>(userProfile, HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
@@ -73,10 +52,12 @@ public class UserController {
     }
 
 
-    @PostMapping("/{id}/schedule-fitness-test")
-    public ResponseEntity<Void> scheduleFitnessTest(@PathVariable Long id, @RequestBody FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule){
-        fitnessTestService.schedule(id, fitnessTestCreateDtoBySchedule);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @PostMapping("/schedule-fitness-test")
+    public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        FitnessTestDto fitnessTestDto = userService.scheduleMyFitnessTest(username, fitnessTestCreateDto);
+        return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("")

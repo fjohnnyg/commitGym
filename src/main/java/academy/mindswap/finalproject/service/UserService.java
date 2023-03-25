@@ -1,18 +1,18 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.dto.UserCreateDto;
+import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
+import academy.mindswap.finalproject.dto.FitnessTestDto;
 import academy.mindswap.finalproject.dto.UserDto;
-import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserService {
 
-    UserDto createUser(UserCreateDto userCreateDto);
 
-    UserDto updateUser(Long id, UserDto userDto);
 
+    UserDto getProfile(String username);
+    UserDto updateUserProfile(String username, UserDto userDto);
+    FitnessTestDto scheduleMyFitnessTest(String username, FitnessTestCreateDto fitnessTestCreateDto);
     void deleteUser(Long userId);
 
     UserDto setRoleClient(String username);
 
-    UserDto getProfile(String username);
 }

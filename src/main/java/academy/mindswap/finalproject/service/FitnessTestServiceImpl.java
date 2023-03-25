@@ -1,6 +1,6 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
+import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
 import academy.mindswap.finalproject.model.entities.FitnessTest;
 import academy.mindswap.finalproject.repository.FitnessTestRepository;
@@ -17,12 +17,6 @@ public class FitnessTestServiceImpl implements FitnessTestService {
     public FitnessTestServiceImpl(FitnessTestMapper fitnessTestMapper, FitnessTestRepository fitnessTestRepository) {
         this.fitnessTestRepository= fitnessTestRepository;
         this.fitnessTestMapper = fitnessTestMapper;
-    }
-
-
-    public void schedule(Long id, FitnessTestCreateDtoBySchedule fitnessTestCreateDtoBySchedule) {
-        FitnessTest fitnessTest = fitnessTestMapper.fromFitnessTestCreateDtoScheduleToEntity(fitnessTestCreateDtoBySchedule);
-        fitnessTestRepository.save(fitnessTest);
     }
 
 
