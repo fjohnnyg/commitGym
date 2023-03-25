@@ -1,20 +1,26 @@
 package academy.mindswap.finalproject.controller;
 
+import academy.mindswap.finalproject.auth.AuthenticationRequest;
 import academy.mindswap.finalproject.dto.FitnessTestCreateDtoBySchedule;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v2/user")
 public class UserController {
 
     private UserService userService;
@@ -26,11 +32,27 @@ public class UserController {
         this.fitnessTestService = fitnessTestService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
-        UserDto user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    /*
+    @GetMapping("/my-profile")
+    public ResponseEntity<UserDto> getMyProfile() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        UserDto userProfile = userService.getProfile(username);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
+
+     */
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserDto> getMyProfile() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        UserDto userProfile = userService.getProfile(username);
+        return new ResponseEntity<>(userProfile, HttpStatus.OK);
+    }
+
+    @GetMapping
+
 
     @PostMapping
     public ResponseEntity<UserDto> createUser(@RequestBody UserCreateDto user) {

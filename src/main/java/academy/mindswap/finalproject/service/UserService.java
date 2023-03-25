@@ -2,9 +2,9 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.dto.UserDto;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface UserService {
-    UserDto getUserById(Long userId);
 
     UserDto createUser(UserCreateDto userCreateDto);
 
@@ -14,4 +14,5 @@ public interface UserService {
 
     UserDto setRoleClient(String username);
 
+    UserDto getProfile(String username);
 }

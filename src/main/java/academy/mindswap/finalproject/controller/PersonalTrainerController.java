@@ -1,15 +1,15 @@
 package academy.mindswap.finalproject.controller;
 
 
-import academy.mindswap.finalproject.service.PTService;
+import academy.mindswap.finalproject.service.PersonalTrainerService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/pt")
-public class PTController {
+public class PersonalTrainerController {
 
-    private PTService ptService;
+    private PersonalTrainerService ptService;
 
 
 

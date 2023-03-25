@@ -1,4 +1,4 @@
 package academy.mindswap.finalproject.service;
 
-public interface PTService {
+public interface PersonalTrainerService {
 }

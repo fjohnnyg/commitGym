@@ -10,6 +10,8 @@ public interface UserMapper {
    UserDto fromUserEntityToUserDto(User user);
    User fromUserCreateDtoToEntity(UserCreateDto userCreatedDto);
 
+   User fromUserDtoToEntity(UserDto userDto);
+
     /*{
         UserDto.UserDtoBuilder userDto = UserDto.builder();
 

@@ -31,9 +31,7 @@ import java.util.Set;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
-
     private final ClientRepository clientRepository;
-
     private final PersonalTrainerRepository personalTrainerRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;

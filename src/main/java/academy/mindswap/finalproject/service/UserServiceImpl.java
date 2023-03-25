@@ -5,7 +5,9 @@ import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.mapper.UserMapper;
 import academy.mindswap.finalproject.model.entities.User;
+import academy.mindswap.finalproject.repository.TokenRepository;
 import academy.mindswap.finalproject.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,20 +17,16 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, JwtService jwtService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-    }
-
-    @Override
-    public UserDto getUserById(Long userId) {
-        User user = userRepository.getReferenceById(userId);
-        return userMapper.fromUserEntityToUserDto(user);
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -53,7 +51,11 @@ public class UserServiceImpl implements UserService{
         Optional<User> optionalUser = userRepository.findByUsername(userEmail);
         return
         optionalUser.map(userMapper::fromUserEntityToUserDto).orElseThrow(() -> new UserNotFoundException());
+    }
 
-
+    @Override
+    public UserDto getProfile(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return userMapper.fromUserEntityToUserDto(user);
     }
 }
