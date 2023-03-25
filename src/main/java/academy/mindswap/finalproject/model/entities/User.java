@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
+    @Column(nullable = false)
     private Set<Role> roles;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

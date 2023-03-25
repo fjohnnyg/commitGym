@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +67,7 @@ public class AuthenticationService {
     }
 
     public User registerUser(UserCreateDto request){
+        Set<Role> role = new HashSet<>(Arrays.asList(Role.GENERIC));
 
         User createdUser = User.builder()
                 .firstName(request.getFirstName())
@@ -74,11 +76,10 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles(new HashSet<>(Arrays.asList(Role.GENERIC)))
+                .roles(role)
                 .build();
         return createdUser;
     }
-
 
     public AuthenticationResponse adminRegister(RegisterRequest request) {
         var user = User.builder()
@@ -99,9 +100,9 @@ public class AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        User user = userRepository.findByEmail(request.getUsername())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        String jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()

@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto setRoleClient(String userEmail) {
-        Optional<User> optionalUser = userRepository.findByEmail(userEmail);
+        Optional<User> optionalUser = userRepository.findByUsername(userEmail);
         return
         optionalUser.map(userMapper::fromUserEntityToUserDto).orElseThrow(() -> new UserNotFoundException());
 

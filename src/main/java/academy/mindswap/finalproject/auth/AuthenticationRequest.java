@@ -1,16 +1,15 @@
 package academy.mindswap.finalproject.auth;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class AuthenticationRequest {
 
     private String username;
-    String password;
+    private String password;
 }
