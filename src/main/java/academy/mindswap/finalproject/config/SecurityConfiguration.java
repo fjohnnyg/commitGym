@@ -29,7 +29,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                     .requestMatchers( "/swagger-ui/**", "/api/v2/auth/**")
                     .permitAll()
-                    .requestMatchers("/api/v2/user/**").authenticated()
+                    .requestMatchers("/api/v2/user/**","/api/v2/personal-trainer/**").authenticated()
                     .anyRequest().permitAll()
                 .and()
                 .sessionManagement()

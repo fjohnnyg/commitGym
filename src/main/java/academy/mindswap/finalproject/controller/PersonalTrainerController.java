@@ -1,6 +1,7 @@
 package academy.mindswap.finalproject.controller;
 
 
+import academy.mindswap.finalproject.dto.ExerciseDto;
 import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.dto.FitnessTestDto;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
@@ -36,6 +37,13 @@ public class PersonalTrainerController {
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
-
+    @PostMapping("/create-exercise") //os exercicios não deveriam ser por personal trainer?
+    public ResponseEntity<ExerciseDto> createExercise(@RequestBody ExerciseDto exerciseDto) {
+        //UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //String personalTrainerUsername = user.getUsername();
+        ExerciseDto exercise = personalTrainerService.createExercise(exerciseDto);
+        return new ResponseEntity<>(exercise, HttpStatus.ACCEPTED);
+    }
 
 }
+

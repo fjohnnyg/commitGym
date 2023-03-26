@@ -23,9 +23,7 @@ public class FitnessTestDto {
     private LocalDate date;
     private int weight;
     private int height;
-
     private int bodyFat;
-
     private int imc;
 
 
