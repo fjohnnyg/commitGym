@@ -50,6 +50,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Set<Role> roles;
 
+    @OneToMany(mappedBy = "user")
+    private List<FitnessTest> fitnessTests;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Client client;
 

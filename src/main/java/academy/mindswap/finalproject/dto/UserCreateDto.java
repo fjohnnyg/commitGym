@@ -1,6 +1,7 @@
 package academy.mindswap.finalproject.dto;
 
 import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -37,6 +38,8 @@ public class UserCreateDto {
     @Min(value = 8, message = "Password must be at least 8 characters long")
     @NotBlank (message = "Must have a password")
     private String password;
+
+    private Set<Specializations> specializations;
 
 
 

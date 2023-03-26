@@ -24,8 +24,12 @@ public class Client implements UserDetails {
     private Long id;
     @OneToOne
     private User user;
-    @OneToMany(mappedBy = "client")
+
+    /*
+    @OneToMany(mappedBy = "user")
     private List<FitnessTest> fitnessTests;
+
+     */
     @ManyToOne(targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlans;
 

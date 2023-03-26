@@ -2,6 +2,7 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.dto.FitnessTestDto;
+import academy.mindswap.finalproject.dto.PersonalTrainerDto;
 import academy.mindswap.finalproject.dto.UserDto;
 
 public interface UserService {

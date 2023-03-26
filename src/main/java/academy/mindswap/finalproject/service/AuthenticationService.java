@@ -10,6 +10,7 @@ import academy.mindswap.finalproject.model.entities.PersonalTrainer;
 import academy.mindswap.finalproject.model.entities.Token;
 import academy.mindswap.finalproject.model.entities.User;
 import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.model.enums.TokenType;
 import academy.mindswap.finalproject.repository.ClientRepository;
 import academy.mindswap.finalproject.repository.PersonalTrainerRepository;
@@ -55,9 +56,11 @@ public class AuthenticationService {
         User personalTrainerUser = registerUser(request);
         personalTrainerUser.setRoles(new HashSet<>(Arrays.asList(Role.PERSONAL_TRAINER)));
         userRepository.save(personalTrainerUser);
+
         String jwtToken = jwtService.generateToken(personalTrainerUser);
         saveUserToken(personalTrainerUser, jwtToken);
         PersonalTrainer personalTrainer = new PersonalTrainer(personalTrainerUser);
+        personalTrainer.setSpecializations(request.getSpecializations());
         personalTrainerRepository.save(personalTrainer);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

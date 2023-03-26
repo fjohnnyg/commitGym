@@ -2,6 +2,7 @@ package academy.mindswap.finalproject.controller;
 
 import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.dto.FitnessTestDto;
+import academy.mindswap.finalproject.dto.PersonalTrainerDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
@@ -36,7 +37,6 @@ public class UserController {
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
-
     @PutMapping("/profile-update")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,13 +44,6 @@ public class UserController {
         UserDto userProfile = userService.updateUserProfile(username,userDto);
         return new ResponseEntity<>(userProfile, HttpStatus.ACCEPTED);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
 
     @PostMapping("/schedule-fitness-test")
     public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
@@ -60,6 +53,11 @@ public class UserController {
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
     @PutMapping("")
     public ResponseEntity<UserDto> setRoleClient(Principal principal) {
         String userEmail = principal.getName();
