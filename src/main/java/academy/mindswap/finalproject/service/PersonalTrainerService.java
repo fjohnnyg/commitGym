@@ -6,11 +6,9 @@ import academy.mindswap.finalproject.model.entities.DailyPlan;
 public interface PersonalTrainerService {
 
     FitnessTestDto scheduleFitnessTest(FitnessTestCreateDto fitnessTestCreateDto);
-
-
     ExerciseDto createExercise(ExerciseDto exerciseDto);
-
     WorkoutDto createWorkout(WorkoutDto workoutDto);
-
     DailyPlanDto createDailyPlan(DailyPlanDto dailyPlanDto, String personalTrainerUsername);
+    void createClientAccount(String personalTrainerUsername);
+    void inactiveAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto);
 }

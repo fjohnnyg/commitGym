@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v2/personal-trainer")
@@ -56,6 +53,22 @@ public class PersonalTrainerController {
         DailyPlanDto clientDailyPlan = personalTrainerService.createDailyPlan(dailyPlanDto, personalTrainerUsername);
         return new ResponseEntity<>(clientDailyPlan, HttpStatus.ACCEPTED);
     }
+    @PutMapping("/create-client-account")
+    public ResponseEntity<Void> createClientAccount() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String personalTrainerUsername = user.getUsername();
+        personalTrainerService.createClientAccount(personalTrainerUsername);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/inactive-account")
+    public ResponseEntity<Void> inactiveAccount(@RequestBody UserDeleteAccountDto userDeleteAccountDto) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String personalTrainerUsername = user.getUsername();
+        personalTrainerService.inactiveAccount(personalTrainerUsername, userDeleteAccountDto);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
 
 }
 

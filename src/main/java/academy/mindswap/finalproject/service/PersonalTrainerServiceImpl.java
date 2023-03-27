@@ -1,20 +1,22 @@
 package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.*;
+import academy.mindswap.finalproject.exceptions.ExerciseAlreadyExist;
+import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.mapper.DailyPlanMapper;
 import academy.mindswap.finalproject.mapper.ExerciseMapper;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
 import academy.mindswap.finalproject.mapper.WorkoutMapper;
 import academy.mindswap.finalproject.model.entities.*;
 import academy.mindswap.finalproject.model.entities.DailyPlan;
+import academy.mindswap.finalproject.model.enums.Role;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class PersonalTrainerServiceImpl implements PersonalTrainerService {
@@ -48,12 +50,13 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
     @Override
     public FitnessTestDto scheduleFitnessTest(FitnessTestCreateDto fitnessTestCreateDto){
+
         UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = loggedUser.getUsername();
         User ptuser = userRepository.findByUsername(personalTrainerUsername).orElseThrow();
         PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(ptuser.getId());
 
-        User user = userRepository.findByUsername(fitnessTestCreateDto.getClientUsername()).orElseThrow();
+        User user = userRepository.findByUsername(fitnessTestCreateDto.getClientUsername()).orElseThrow(UserNotFoundException::new);
 
         FitnessTest userFitnessTest = FitnessTest.builder()
                 .date(fitnessTestCreateDto.getDate())
@@ -70,6 +73,10 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
     @Override
     public ExerciseDto createExercise(ExerciseDto exerciseDto) {
+        if(exerciseRepository.findByName(exerciseDto.getName()) != null){
+            throw new ExerciseAlreadyExist("Exercise already exist");
+        }
+
         Exercise exercise = Exercise.builder()
                 .name(exerciseDto.getName())
                 .description(exerciseDto.getDescription())
@@ -97,13 +104,12 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
     @Override
     public DailyPlanDto createDailyPlan(DailyPlanDto dailyPlanDto, String personalTrainerUsername) {
         String clientUsername = dailyPlanDto.getClientUsername();
-        User userClient = userRepository.findByUsername(clientUsername).orElseThrow();
+        User userClient = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(userClient.getId());
 
-        User userPersonalTrainer = userRepository.findByUsername(personalTrainerUsername).orElseThrow();
+        User userPersonalTrainer = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
         PersonalTrainer personalTrainer = userPersonalTrainer.getPersonalTrainer();
 
-                //personalTrainerRepository.getReferenceById(userPersonalTrainer.getId());
 
         List<Workout> workouts = new ArrayList<>();
         for (Long workoutId : dailyPlanDto.getWorkoutsId()) {
@@ -120,6 +126,40 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
         dailyPlanRepository.save(dailyPlan);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
+    }
+
+    @Override
+    public void createClientAccount(String personalTrainerUsername) {
+        User user = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        Set<Role> newRole = new HashSet<>();
+        newRole.add(Role.CLIENT);
+        newRole.add(Role.PERSONAL_TRAINER);
+        user.setRoles(newRole);
+        userRepository.save(user);
+
+        Client client = new Client(user);
+        clientRepository.save(client);
+
+    }
+
+    @Override
+    public void inactiveAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto) {
+        User user = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        if(userDeleteAccountDto.getProfileToInactive() == "PERSONAL TRAINER"){
+            Set<Role> newRole = new HashSet<>();
+            newRole.add(Role.CLIENT);
+            user.setRoles(newRole);
+            userRepository.save(user);
+            return;
+        }
+        if(userDeleteAccountDto.getProfileToInactive() == "CLIENT"){
+            Set<Role> newRole = new HashSet<>();
+            newRole.add(Role.PERSONAL_TRAINER);
+            user.setRoles(newRole);
+            userRepository.save(user);
+            return;
+        }
+
     }
 
 

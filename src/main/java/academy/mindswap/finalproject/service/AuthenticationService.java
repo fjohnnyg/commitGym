@@ -5,6 +5,7 @@ import academy.mindswap.finalproject.auth.AuthenticationResponse;
 import academy.mindswap.finalproject.auth.RegisterRequest;
 import academy.mindswap.finalproject.dto.PersonalTrainerCreateDto;
 import academy.mindswap.finalproject.dto.UserCreateDto;
+import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.model.entities.Client;
 import academy.mindswap.finalproject.model.entities.PersonalTrainer;
 import academy.mindswap.finalproject.model.entities.Token;
@@ -54,7 +55,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse registerPersonalTrainer(UserCreateDto request) {
         User personalTrainerUser = registerUser(request);
-        personalTrainerUser.setRoles(new HashSet<>(Arrays.asList(Role.PERSONAL_TRAINER)));
+        personalTrainerUser.setRoles(new HashSet<>((request.getRoles())));
         userRepository.save(personalTrainerUser);
 
         String jwtToken = jwtService.generateToken(personalTrainerUser);
@@ -98,11 +99,11 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(UserNotFoundException::new);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow();
         String jwtToken = jwtService.generateToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);

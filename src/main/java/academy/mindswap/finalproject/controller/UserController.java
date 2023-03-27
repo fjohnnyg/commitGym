@@ -2,7 +2,7 @@ package academy.mindswap.finalproject.controller;
 
 import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.dto.FitnessTestDto;
-import academy.mindswap.finalproject.dto.PersonalTrainerDto;
+import academy.mindswap.finalproject.dto.PersonalTrainerUpdateSpecializationDto;
 import academy.mindswap.finalproject.dto.UserDto;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
@@ -36,7 +36,6 @@ public class UserController {
         UserDto userProfile = userService.getProfile(username);
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
-
     @PutMapping("/profile-update")
     public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,7 +43,6 @@ public class UserController {
         UserDto userProfile = userService.updateUserProfile(username,userDto);
         return new ResponseEntity<>(userProfile, HttpStatus.ACCEPTED);
     }
-
     @PostMapping("/schedule-fitness-test")
     public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -52,17 +50,19 @@ public class UserController {
         FitnessTestDto fitnessTestDto = userService.scheduleMyFitnessTest(username, fitnessTestCreateDto);
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
-        userService.deleteUser(id);
+    @PutMapping("/inactive-account")
+    public ResponseEntity<Void> inactiveAccount(){
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        userService.inactiveAccount(username);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-    @PutMapping("")
-    public ResponseEntity<UserDto> setRoleClient(Principal principal) {
-        String userEmail = principal.getName();
-        UserDto userDto = userService.setRoleClient(userEmail);
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    @PutMapping("add-personal-trainer-account")
+    public ResponseEntity<Void> addPersonalTrainerAccount(@RequestBody PersonalTrainerUpdateSpecializationDto personalTrainerUpdateSpecializationDto) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        userService.addPersonalTrainerAccount(username, personalTrainerUpdateSpecializationDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

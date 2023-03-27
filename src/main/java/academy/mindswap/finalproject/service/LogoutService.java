@@ -1,5 +1,6 @@
 package academy.mindswap.finalproject.service;
 
+import academy.mindswap.finalproject.model.entities.Token;
 import academy.mindswap.finalproject.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ public class LogoutService implements LogoutHandler {
             return;
         }
         jwt = authHeader.substring(7);
-        var storedToken = tokenRepository.findByToken(jwt)
+        Token storedToken = tokenRepository.findByToken(jwt)
                 .orElse(null);
         if (storedToken != null) {
             storedToken.setExpired(true);

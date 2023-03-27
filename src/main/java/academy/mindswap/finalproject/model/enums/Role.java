@@ -4,6 +4,7 @@ public enum Role {
     ADMIN("Admin"),
     PERSONAL_TRAINER("Personal Trainer"),
     GENERIC ("Generic"),
+    INACTIVE("Inactive"),
     CLIENT("Client");
 
     private final String name;
