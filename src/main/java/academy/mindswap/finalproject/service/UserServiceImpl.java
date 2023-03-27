@@ -93,4 +93,5 @@ public class UserServiceImpl implements UserService{
         optionalUser.map(userMapper::fromUserEntityToUserDto).orElseThrow(() -> new UserNotFoundException());
     }
 
+
 }

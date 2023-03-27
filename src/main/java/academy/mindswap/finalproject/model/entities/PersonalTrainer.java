@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -27,7 +26,9 @@ public class PersonalTrainer {
     private User user;
     @OneToMany(mappedBy = "personalTrainer")
     private List<FitnessTest> fitnessTests;
-    @ManyToOne(targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
+
+    //targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "personalTrainers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlansPrescribed;
 
     public PersonalTrainer(User user) {

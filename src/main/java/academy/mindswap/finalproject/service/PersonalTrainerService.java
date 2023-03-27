@@ -1,13 +1,16 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.dto.ExerciseDto;
-import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
-import academy.mindswap.finalproject.dto.FitnessTestDto;
+import academy.mindswap.finalproject.dto.*;
+import academy.mindswap.finalproject.model.entities.DailyPlan;
 
 public interface PersonalTrainerService {
 
-    FitnessTestDto scheduleFitnessTest(String personalTrainerUsername, FitnessTestCreateDto fitnessTestCreateDto);
+    FitnessTestDto scheduleFitnessTest(FitnessTestCreateDto fitnessTestCreateDto);
 
 
     ExerciseDto createExercise(ExerciseDto exerciseDto);
+
+    WorkoutDto createWorkout(WorkoutDto workoutDto);
+
+    DailyPlanDto createDailyPlan(DailyPlanDto dailyPlanDto, String personalTrainerUsername);
 }

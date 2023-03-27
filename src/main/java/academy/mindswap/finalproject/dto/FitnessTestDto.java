@@ -1,11 +1,6 @@
 package academy.mindswap.finalproject.dto;
 
-import academy.mindswap.finalproject.model.entities.Client;
-import academy.mindswap.finalproject.model.entities.PersonalTrainer;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
+
 import lombok.*;
 
 import java.time.LocalDate;

@@ -1,7 +1,6 @@
 package academy.mindswap.finalproject.dto;
 
-import academy.mindswap.finalproject.model.enums.Role;
-import academy.mindswap.finalproject.model.enums.Specializations;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

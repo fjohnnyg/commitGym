@@ -3,13 +3,13 @@ package academy.mindswap.finalproject.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -20,15 +20,27 @@ public class DailyPlan {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
 
-    @OneToMany(mappedBy = "dailyPlans", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<Client> clients;
+    @ManyToOne(targetEntity = Client.class, fetch = FetchType.EAGER)
+    private Client client;
 
-    @OneToMany(mappedBy = "dailyPlansPrescribed", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<PersonalTrainer> personalTrainers;
+    //(mappedBy = "dailyPlansPrescribed", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 
+    @ManyToOne(targetEntity = PersonalTrainer.class, fetch = FetchType.EAGER)
+    private PersonalTrainer personalTrainers;
+
+
+    @ManyToMany(targetEntity = Workout.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "dailyPlans_workouts",
+            joinColumns = {@JoinColumn(name = "workout_id")},
+            inverseJoinColumns = {@JoinColumn(name = "daily_plans_id")})
+    private List<Workout> workouts = new ArrayList<>();
+
+/*
     @ManyToOne(targetEntity = Workout.class, fetch = FetchType.EAGER)
     private List<Workout> workouts;
+
+ */
 
 }

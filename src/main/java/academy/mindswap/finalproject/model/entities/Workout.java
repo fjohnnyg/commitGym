@@ -3,12 +3,12 @@ package academy.mindswap.finalproject.model.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -25,11 +25,10 @@ public class Workout {
     private int rest;
     @Column(nullable = false)
     private int load;
-    @ManyToOne(targetEntity = Exercise.class, fetch = FetchType.EAGER)
-    private List<Exercise> exercises;
+    @OneToOne(targetEntity = Exercise.class, fetch = FetchType.EAGER)
+    private Exercise exercise;
 
-
-    @OneToMany(mappedBy = "workouts", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<DailyPlan> DailyPlans;
+    @ManyToMany(mappedBy = "workouts", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    private List<DailyPlan> dailyPlans = new ArrayList<>();
 
 }

@@ -13,12 +13,11 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "clients")
-public class Client implements UserDetails {
+public class Client  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,45 +29,12 @@ public class Client implements UserDetails {
     private List<FitnessTest> fitnessTests;
 
      */
-    @ManyToOne(targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlans;
 
     public Client(User user) {
         this.user = user;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
 
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

@@ -1,9 +1,7 @@
 package academy.mindswap.finalproject.controller;
 
 
-import academy.mindswap.finalproject.dto.ExerciseDto;
-import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
-import academy.mindswap.finalproject.dto.FitnessTestDto;
+import academy.mindswap.finalproject.dto.*;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.PersonalTrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +29,7 @@ public class PersonalTrainerController {
 
     @PostMapping("/schedule-fitness-test")
     public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String personalTrainerUsername = user.getUsername();
-        FitnessTestDto fitnessTestDto = personalTrainerService.scheduleFitnessTest(personalTrainerUsername, fitnessTestCreateDto);
+        FitnessTestDto fitnessTestDto = personalTrainerService.scheduleFitnessTest(fitnessTestCreateDto);
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
@@ -43,6 +39,22 @@ public class PersonalTrainerController {
         //String personalTrainerUsername = user.getUsername();
         ExerciseDto exercise = personalTrainerService.createExercise(exerciseDto);
         return new ResponseEntity<>(exercise, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/create-workout")
+    public ResponseEntity<WorkoutDto> createWorkout(@RequestBody WorkoutDto workoutDto) {
+        //UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //String personalTrainerUsername = user.getUsername();
+        WorkoutDto workout = personalTrainerService.createWorkout(workoutDto);
+        return new ResponseEntity<>(workout, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/create-client-daily-plan")
+    public ResponseEntity<DailyPlanDto> createClientDailyPlan(@RequestBody DailyPlanDto dailyPlanDto) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String personalTrainerUsername = user.getUsername();
+        DailyPlanDto clientDailyPlan = personalTrainerService.createDailyPlan(dailyPlanDto, personalTrainerUsername);
+        return new ResponseEntity<>(clientDailyPlan, HttpStatus.ACCEPTED);
     }
 
 }

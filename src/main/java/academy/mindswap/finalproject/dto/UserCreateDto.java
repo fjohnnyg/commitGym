@@ -4,7 +4,6 @@ import academy.mindswap.finalproject.model.enums.Role;
 import academy.mindswap.finalproject.model.enums.Specializations;
 import jakarta.validation.constraints.*;
 import lombok.*;
-
 import java.time.LocalDate;
 import java.util.Set;
 
