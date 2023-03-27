@@ -16,11 +16,11 @@ import java.util.List;
 @Table(name = "daily_plans")
 public class DailyPlan {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private LocalDate date;
+   private LocalDate date;
 
     @ManyToOne(targetEntity = Client.class, fetch = FetchType.EAGER)
     private Client client;
