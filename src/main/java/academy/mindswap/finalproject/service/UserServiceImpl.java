@@ -8,10 +8,7 @@ import academy.mindswap.finalproject.mapper.DailyPlanMapper;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
 import academy.mindswap.finalproject.mapper.PersonalTrainerMapper;
 import academy.mindswap.finalproject.mapper.UserMapper;
-import academy.mindswap.finalproject.model.entities.DailyPlan;
-import academy.mindswap.finalproject.model.entities.FitnessTest;
-import academy.mindswap.finalproject.model.entities.PersonalTrainer;
-import academy.mindswap.finalproject.model.entities.User;
+import academy.mindswap.finalproject.model.entities.*;
 import academy.mindswap.finalproject.model.enums.Role;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,7 +137,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public DailyPlanDto getDailyPlan(String username, LocalDate date) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(user.getId(),date);
+        Client client = clientRepository.findByUserId(user.getId());
+        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
     }
 

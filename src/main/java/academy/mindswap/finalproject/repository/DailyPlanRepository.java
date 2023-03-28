@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public interface DailyPlanRepository extends JpaRepository<DailyPlan, Long> {
 
-    @Query(value = "SELECT dp FROM DailyPlan dp WHERE dp.client.id = :userId AND dp.date = :date")
-    DailyPlan findByUserIdAndDate(@Param("userId") Long userId, @Param("date") LocalDate date);
+    @Query(value = "select dp from DailyPlan dp where dp.client.id = :clientId and dp.date = :date")
+    DailyPlan findByUserIdAndDate(Long clientId, @Param("date") LocalDate date);
 
 }
