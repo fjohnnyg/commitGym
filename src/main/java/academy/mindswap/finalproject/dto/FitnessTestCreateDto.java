@@ -17,6 +17,10 @@ public class FitnessTestCreateDto {
     private LocalDate date;
     private String clientUsername;
     private String personalTrainerUsername;
+    private int weight;
+    private int height;
+    private int bodyFat;
+    private int imc;
 
 
 

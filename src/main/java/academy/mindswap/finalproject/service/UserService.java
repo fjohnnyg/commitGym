@@ -1,9 +1,9 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
-import academy.mindswap.finalproject.dto.FitnessTestDto;
-import academy.mindswap.finalproject.dto.PersonalTrainerUpdateSpecializationDto;
-import academy.mindswap.finalproject.dto.UserDto;
+import academy.mindswap.finalproject.dto.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public interface UserService {
 
@@ -14,5 +14,9 @@ public interface UserService {
     FitnessTestDto scheduleMyFitnessTest(String username, FitnessTestCreateDto fitnessTestCreateDto);
     void inactiveAccount(String username);
     void addPersonalTrainerAccount(String username, PersonalTrainerUpdateSpecializationDto personalTrainerUpdateSpecializationDto);
+    FitnessTestDto getLatestFitnessTest(String username);
 
+    List<FitnessTestDto> getAllFitnessTest(String username);
+
+    DailyPlanDto getDailyPlan(String username, LocalDate date);
 }

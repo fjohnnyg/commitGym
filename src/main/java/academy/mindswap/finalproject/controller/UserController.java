@@ -1,9 +1,6 @@
 package academy.mindswap.finalproject.controller;
 
-import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
-import academy.mindswap.finalproject.dto.FitnessTestDto;
-import academy.mindswap.finalproject.dto.PersonalTrainerUpdateSpecializationDto;
-import academy.mindswap.finalproject.dto.UserDto;
+import academy.mindswap.finalproject.dto.*;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.util.List;
 
 
 @RestController
@@ -64,6 +63,29 @@ public class UserController {
         userService.addPersonalTrainerAccount(username, personalTrainerUpdateSpecializationDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @GetMapping("/latest-fitness-test")
+    public ResponseEntity<FitnessTestDto> getLatestFitnessTest() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        FitnessTestDto latestFitnessTest = userService.getLatestFitnessTest(username);
+        return new ResponseEntity<>(latestFitnessTest, HttpStatus.OK);
+    }
+    @GetMapping("/all-fitness-test")
+    public ResponseEntity<List<FitnessTestDto>> getAllFitnessTest() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        List<FitnessTestDto> allFitnessTest = userService.getAllFitnessTest(username);
+        return new ResponseEntity<>(allFitnessTest, HttpStatus.OK);
+    }
+    @GetMapping("/daily-plan")
+    public ResponseEntity<DailyPlanDto> getDailyPlan(@RequestBody LocalDate date) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        DailyPlanDto dailyPlanDto = userService.getDailyPlan(username,date);
+        return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
+    }
+
+
 
 
 

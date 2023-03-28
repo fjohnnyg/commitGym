@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Set<Role> roles;

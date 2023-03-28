@@ -1,8 +1,7 @@
 package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.*;
-import academy.mindswap.finalproject.exceptions.ExerciseAlreadyExist;
-import academy.mindswap.finalproject.exceptions.UserNotFoundException;
+import academy.mindswap.finalproject.exceptions.*;
 import academy.mindswap.finalproject.mapper.DailyPlanMapper;
 import academy.mindswap.finalproject.mapper.ExerciseMapper;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
@@ -70,6 +69,53 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         fitnessTestRepository.save(userFitnessTest);
         return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
     }
+    @Override
+    public FitnessTestDto createFitnessTest(FitnessTestCreateDto fitnessTestCreateDto){
+
+        UserDetails personalTrainerUserDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String personalTrainerUsername = personalTrainerUserDetails.getUsername();
+        User personalTrainerUser = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
+
+        String clientUsername = fitnessTestCreateDto.getClientUsername();
+        User clientUser = userRepository.findByUsername(clientUsername).orElseThrow();
+
+/*
+        Boolean notScheduleFitnessTest = fitnessTestRepository.findLatestByUserId(clientUser.getId()).isEmpty();
+
+        if(!notScheduleFitnessTest && notScheduleFitnessTest.getWeight() != 0 && notScheduleFitnessTest.getDate() == fitnessTestCreateDto.getDate()){
+            throw new FitnessTestAlreadyDone("The fitness test schedule for this date is already done, schedule another one");
+        }
+
+        Boolean alreadySchedule = false;
+        if(!notScheduleFitnessTest) {
+
+        }
+            && notScheduleFitnessTest.getWeight() == 0){
+            alreadySchedule = true;
+        }
+
+
+
+        FitnessTest userFitnessTest = null;
+
+        if(alreadySchedule || notScheduleFitnessTest) {
+
+ */
+
+           FitnessTest userFitnessTest = FitnessTest.builder()
+                    .date(fitnessTestCreateDto.getDate())
+                    .imc(fitnessTestCreateDto.getImc())
+                    .bodyFat(fitnessTestCreateDto.getBodyFat())
+                    .height(fitnessTestCreateDto.getHeight())
+                    .weight(fitnessTestCreateDto.getWeight())
+                    .user(clientUser)
+                    .personalTrainer(personalTrainer)
+                    .build();
+
+            fitnessTestRepository.save(userFitnessTest);
+        return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
+    }
 
     @Override
     public ExerciseDto createExercise(ExerciseDto exerciseDto) {
@@ -107,6 +153,10 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         User userClient = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(userClient.getId());
 
+        if(client.getDailyPlans().contains(dailyPlanDto.getDate())){
+            throw new DailyPlanAlreadyExist("This user already have a daily plan on this date");
+        }
+
         User userPersonalTrainer = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
         PersonalTrainer personalTrainer = userPersonalTrainer.getPersonalTrainer();
 
@@ -129,7 +179,7 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
     }
 
     @Override
-    public void createClientAccount(String personalTrainerUsername) {
+    public void addClientAccount(String personalTrainerUsername) {
         User user = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
         Set<Role> newRole = new HashSet<>();
         newRole.add(Role.CLIENT);

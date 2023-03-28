@@ -5,7 +5,8 @@ public enum Role {
     PERSONAL_TRAINER("Personal Trainer"),
     GENERIC ("Generic"),
     INACTIVE("Inactive"),
-    CLIENT("Client");
+    CLIENT("Client"),
+    CLIENT_PERSONAL_TRAINER ("Client and Personal trainer");
 
     private final String name;
 

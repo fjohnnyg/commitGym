@@ -5,6 +5,7 @@ import academy.mindswap.finalproject.auth.AuthenticationResponse;
 import academy.mindswap.finalproject.auth.RegisterRequest;
 import academy.mindswap.finalproject.dto.PersonalTrainerCreateDto;
 import academy.mindswap.finalproject.dto.UserCreateDto;
+import academy.mindswap.finalproject.exceptions.InactiveUser;
 import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.model.entities.Client;
 import academy.mindswap.finalproject.model.entities.PersonalTrainer;
@@ -99,8 +100,11 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
         User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(UserNotFoundException::new);
+
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );

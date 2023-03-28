@@ -57,7 +57,7 @@ public class PersonalTrainerController {
     public ResponseEntity<Void> createClientAccount() {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = user.getUsername();
-        personalTrainerService.createClientAccount(personalTrainerUsername);
+        personalTrainerService.addClientAccount(personalTrainerUsername);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -67,6 +67,12 @@ public class PersonalTrainerController {
         String personalTrainerUsername = user.getUsername();
         personalTrainerService.inactiveAccount(personalTrainerUsername, userDeleteAccountDto);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/create-fitness-test")
+    public ResponseEntity<FitnessTestDto> createFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto) {
+        FitnessTestDto fitnessTestDto = personalTrainerService.createFitnessTest(fitnessTestCreateDto);
+        return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
 
