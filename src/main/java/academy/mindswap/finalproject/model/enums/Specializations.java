@@ -6,3 +6,14 @@ public enum Specializations {
     CARDIO,
     GENERIC
 }
+
+
+
+/*
+  for (Specializations specializations : personalTrainerUpdateSpecializationDto.getSpecializations()) {
+            String specialization = String.valueOf(specializations);
+            if (!EnumUtils.isValidEnum(Specializations.class, specialization)){
+                throw new SpecializationDoesNotExist();
+            }
+        }
+ */

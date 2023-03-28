@@ -1,6 +1,7 @@
 package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.*;
+import academy.mindswap.finalproject.exceptions.SpecializationDoesNotExist;
 import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
 import academy.mindswap.finalproject.mapper.PersonalTrainerMapper;
@@ -9,12 +10,15 @@ import academy.mindswap.finalproject.model.entities.FitnessTest;
 import academy.mindswap.finalproject.model.entities.PersonalTrainer;
 import academy.mindswap.finalproject.model.entities.User;
 import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.ClientRepository;
 import academy.mindswap.finalproject.repository.FitnessTestRepository;
 import academy.mindswap.finalproject.repository.PersonalTrainerRepository;
 import academy.mindswap.finalproject.repository.UserRepository;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

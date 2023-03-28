@@ -57,28 +57,6 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PersonalTrainer personalTrainer;
 
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    private List<FitnessTest> myFitnessTest = new ArrayList<>();
-    @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_fitnessTests",
-    joinColumns = {@JoinColumn(name = "client_id")},
-    inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
-    private List<FitnessTest> myFitnessTests = new ArrayList<>();
-    @ManyToMany (targetEntity = FitnessTest.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_fitnessTests",
-            joinColumns = {@JoinColumn(name = "personalTrainer_id")},
-            inverseJoinColumns = {@JoinColumn(name = "fitnessTest_id")})
-    private List<FitnessTest> fitnessTestsDone;
-    @ManyToOne(targetEntity = Workout.class, fetch = FetchType.EAGER)
-    private List<Workout> workouts;
-    @Enumerated(EnumType.STRING)
-    @Column
-    private List<Role> roles;
-    @Enumerated(EnumType.STRING)
-    @Column
-    private Specializations specializations;
-     */
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
