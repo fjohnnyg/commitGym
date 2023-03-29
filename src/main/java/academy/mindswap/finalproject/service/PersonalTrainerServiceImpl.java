@@ -2,13 +2,10 @@ package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.*;
 import academy.mindswap.finalproject.exceptions.*;
-import academy.mindswap.finalproject.mapper.DailyPlanMapper;
-import academy.mindswap.finalproject.mapper.ExerciseMapper;
-import academy.mindswap.finalproject.mapper.FitnessTestMapper;
-import academy.mindswap.finalproject.mapper.WorkoutMapper;
+import academy.mindswap.finalproject.mapper.*;
 import academy.mindswap.finalproject.model.entities.*;
-import academy.mindswap.finalproject.model.entities.DailyPlan;
 import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,7 +16,6 @@ import java.util.*;
 
 @Service
 public class PersonalTrainerServiceImpl implements PersonalTrainerService {
-
     UserRepository userRepository;
     PersonalTrainerRepository personalTrainerRepository;
     FitnessTestRepository fitnessTestRepository;
@@ -46,7 +42,6 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         this.dailyPlanRepository = dailyPlanRepository;
         this.dailyPlanMapper = dailyPlanMapper;
     }
-
     @Override
     public FitnessTestDto scheduleFitnessTest(FitnessTestCreateDto fitnessTestCreateDto){
 
@@ -78,7 +73,9 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
 
         String clientUsername = fitnessTestCreateDto.getClientUsername();
-        User clientUser = userRepository.findByUsername(clientUsername).orElseThrow();
+        User clientUser = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+
+        //fitnessTestRepository.findLatestByUserId(clientUser.getId()).get().getDate().compareTo(fitnessTestCreateDto.getDate());
 
 /*
         Boolean notScheduleFitnessTest = fitnessTestRepository.findLatestByUserId(clientUser.getId()).isEmpty();
@@ -163,8 +160,11 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
         List<Workout> workouts = new ArrayList<>();
         for (Long workoutId : dailyPlanDto.getWorkoutsId()) {
-            Workout workout = workoutRepository.getReferenceById(workoutId);
-            workouts.add(workout);
+            try {
+                Workout workout = workoutRepository.getReferenceById(workoutId);
+                workouts.add(workout);
+            } catch (WorkoutDoesNotExist ex) {
+            }
         }
 
         DailyPlan dailyPlan = DailyPlan.builder()
@@ -193,8 +193,15 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
     }
 
     @Override
-    public void inactiveAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto) {
+    public void inactivateAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto) {
         User user = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+
+        String roleName = userDeleteAccountDto.getProfileToInactive();
+        try {
+            Role.valueOf(roleName);
+        } catch (SpecializationDoesNotExist ex) {
+        }
+
         if(userDeleteAccountDto.getProfileToInactive() == "PERSONAL TRAINER"){
             Set<Role> newRole = new HashSet<>();
             newRole.add(Role.CLIENT);
@@ -207,9 +214,7 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
             newRole.add(Role.PERSONAL_TRAINER);
             user.setRoles(newRole);
             userRepository.save(user);
-            return;
         }
-
     }
 
 

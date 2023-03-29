@@ -65,7 +65,7 @@ public class PersonalTrainerController {
     public ResponseEntity<Void> inactiveAccount(@RequestBody UserDeleteAccountDto userDeleteAccountDto) {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = user.getUsername();
-        personalTrainerService.inactiveAccount(personalTrainerUsername, userDeleteAccountDto);
+        personalTrainerService.inactivateAccount(personalTrainerUsername, userDeleteAccountDto);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 

@@ -9,6 +9,6 @@ public interface PersonalTrainerService {
     WorkoutDto createWorkout(WorkoutDto workoutDto);
     DailyPlanDto createDailyPlan(DailyPlanDto dailyPlanDto, String personalTrainerUsername);
     void addClientAccount(String personalTrainerUsername);
-    void inactiveAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto);
+    void inactivateAccount(String personalTrainerUsername, UserDeleteAccountDto userDeleteAccountDto);
     FitnessTestDto createFitnessTest(FitnessTestCreateDto fitnessTestCreateDto);
 }

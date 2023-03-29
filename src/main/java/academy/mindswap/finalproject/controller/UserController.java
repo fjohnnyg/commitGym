@@ -4,14 +4,12 @@ import academy.mindswap.finalproject.dto.*;
 import academy.mindswap.finalproject.service.FitnessTestServiceImpl;
 import academy.mindswap.finalproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class UserController {
     public ResponseEntity<Void> inactiveAccount(){
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
-        userService.inactiveAccount(username);
+        userService.inactivateAccount(username);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
     @PutMapping("add-personal-trainer-account")
@@ -83,6 +81,14 @@ public class UserController {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
         DailyPlanDto dailyPlanDto = userService.getDailyPlan(username,date);
+        return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/daily-plan-week")
+    public ResponseEntity<DailyPlanDto> getNext7DailyPlan(@RequestParam("date") LocalDate date) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        DailyPlanDto dailyPlanDto = userService.getNext7DailyPlan(username,date);
         return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
     }
 

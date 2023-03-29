@@ -1,15 +1,11 @@
 package academy.mindswap.finalproject.service;
 
 import academy.mindswap.finalproject.dto.*;
-import academy.mindswap.finalproject.exceptions.AlreadyHasPersonalTrainerAccount;
-import academy.mindswap.finalproject.exceptions.FitnessTestNotFound;
-import academy.mindswap.finalproject.exceptions.UserNotFoundException;
-import academy.mindswap.finalproject.mapper.DailyPlanMapper;
-import academy.mindswap.finalproject.mapper.FitnessTestMapper;
-import academy.mindswap.finalproject.mapper.PersonalTrainerMapper;
-import academy.mindswap.finalproject.mapper.UserMapper;
+import academy.mindswap.finalproject.exceptions.*;
+import academy.mindswap.finalproject.mapper.*;
 import academy.mindswap.finalproject.model.entities.*;
 import academy.mindswap.finalproject.model.enums.Role;
+import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -49,12 +45,12 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public UserDto getProfile(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow();
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         return userMapper.fromUserEntityToUserDto(user);
     }
     @Override
     public UserDto updateUserProfile(String username, UserDto userDto) {
-        User user = userRepository.findByUsername(username).orElseThrow();
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
@@ -65,8 +61,12 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public FitnessTestDto scheduleMyFitnessTest(String username, FitnessTestCreateDto fitnessTestCreateDto) {
-        User clientUser = userRepository.findByUsername(username).orElseThrow();
-        User personalTrainerUser = userRepository.findByUsername(fitnessTestCreateDto.getPersonalTrainerUsername()).orElseThrow();
+        User clientUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        User personalTrainerUser = userRepository.findByUsername(fitnessTestCreateDto.getPersonalTrainerUsername()).orElseThrow(UserNotFoundException::new);
+
+        if (fitnessTestCreateDto.getDate().isBefore(LocalDate.now())){
+            throw new InvalidDate("Invalid date");
+        }
 
         PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
         FitnessTest userFitnessTest = FitnessTest.builder()
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService{
         return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
     }
     @Override
-    public void inactiveAccount(String username) {
+    public void inactivateAccount(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Set<Role> newRole = new HashSet<>();
         newRole.add(Role.INACTIVE);
@@ -96,6 +96,14 @@ public class UserServiceImpl implements UserService{
 
         if(user.getRoles().contains(Role.PERSONAL_TRAINER)){
             throw new AlreadyHasPersonalTrainerAccount("The user already have a personal trainer account");
+        }
+
+        for (Specializations specializations : personalTrainerUpdateSpecializationDto.getSpecializations()) {
+            String specialization = String.valueOf(specializations);
+            try {
+                Specializations specializationCheck = Specializations.valueOf(specialization);
+            } catch (SpecializationDoesNotExist ex) {
+            }
         }
 
         Set<Role> newRole = new HashSet<>();
@@ -133,12 +141,18 @@ public class UserServiceImpl implements UserService{
 
         return fitnessTestMapper.fromEntityListToFitnessTestDtoList(fitnessTest);
     }
-
     @Override
     public DailyPlanDto getDailyPlan(String username, LocalDate date) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(user.getId());
-        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date);
+        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
+        return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
+    }
+    @Override
+    public DailyPlanDto getNext7DailyPlan(String username, LocalDate date) {
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUserId(user.getId());
+        DailyPlan dailyPlan = dailyPlanRepository.findFirst7ByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
     }
 
