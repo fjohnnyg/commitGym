@@ -2,9 +2,19 @@ package academy.mindswap.finalproject.model.enums;
 
 public enum Specializations {
 
-    YOGA,
-    CARDIO,
-    GENERIC
+    YOGA ("Yoga"),
+    CARDIO ("Cardio"),
+    GENERIC ("Generic");
+
+    private final String name;
+
+    private Specializations(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
 
 
