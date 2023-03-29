@@ -1,7 +1,6 @@
 package academy.mindswap.finalproject.aspects;
 
 import academy.mindswap.finalproject.exceptions.*;
-import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ public class GenericExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("This client already have a daily plan for this date");
     }
 
-    @ExceptionHandler({DailyPlanNotFound.class})
+    @ExceptionHandler({DailyPlanNotFoundException.class})
     public ResponseEntity<String> handleDailyPlanNotFound(Exception ex) {
         logger.error("Resource not found: " + ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Daily-plan not found");
@@ -93,6 +92,18 @@ public class GenericExceptionHandler {
         logger.error("Resource not found: " + ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("The Fitness Test of this date is already done");
     }
+
+    @ExceptionHandler({InvalidDate.class})
+    public ResponseEntity<String> handleInvalidDate(Exception ex) {
+        logger.error("Resource not found: " + ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid date");
+    }
+    @ExceptionHandler({WorkoutDoesNotExist.class})
+    public ResponseEntity<String> handleWorkoutDoesNotExist(Exception ex) {
+        logger.error("Resource not found: " + ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Workout does not exist");
+    }
+
 
 
     @ExceptionHandler(value = {Exception.class})
