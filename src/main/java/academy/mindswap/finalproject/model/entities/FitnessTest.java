@@ -1,5 +1,6 @@
 package academy.mindswap.finalproject.model.entities;
 
+import academy.mindswap.finalproject.model.enums.Goal;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,10 +43,9 @@ public class FitnessTest {
     @Column(nullable = true)
     private int imc;
 
-    /*
     @Enumerated(EnumType.STRING)
     @Column(nullable = true)
-    private Goal goal;
+    private List<Goal> goal;
 
-     */
+
 }

@@ -75,6 +75,8 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         String clientUsername = fitnessTestCreateDto.getClientUsername();
         User clientUser = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
 
+
+
         //fitnessTestRepository.findLatestByUserId(clientUser.getId()).get().getDate().compareTo(fitnessTestCreateDto.getDate());
 
 /*
@@ -106,6 +108,7 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
                     .bodyFat(fitnessTestCreateDto.getBodyFat())
                     .height(fitnessTestCreateDto.getHeight())
                     .weight(fitnessTestCreateDto.getWeight())
+                    .goal(fitnessTestCreateDto.getGoal())
                     .user(clientUser)
                     .personalTrainer(personalTrainer)
                     .build();

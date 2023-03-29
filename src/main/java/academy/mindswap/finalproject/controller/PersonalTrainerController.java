@@ -30,7 +30,7 @@ public class PersonalTrainerController {
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/create-exercise") //os exercicios não deveriam ser por personal trainer?
+    @PostMapping("/create-exercise")
     public ResponseEntity<ExerciseDto> createExercise(@RequestBody ExerciseDto exerciseDto) {
         //UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         //String personalTrainerUsername = user.getUsername();
