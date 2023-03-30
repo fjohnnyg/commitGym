@@ -41,11 +41,9 @@ public class UserController {
         UserDto userProfile = userService.updateUserProfile(username,userDto);
         return new ResponseEntity<>(userProfile, HttpStatus.ACCEPTED);
     }
-    @PostMapping("/schedule-fitness-test")
-    public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
-        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = user.getUsername();
-        FitnessTestDto fitnessTestDto = userService.scheduleMyFitnessTest(username, fitnessTestCreateDto);
+    @PostMapping("/Client/schedule-fitness-test")
+    public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestClientRequest fitnessTestClientRequest){
+        FitnessTestDto fitnessTestDto = userService.scheduleMyFitnessTest(fitnessTestClientRequest.getPersonalTrainerUsername(), fitnessTestClientRequest.getDate());
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
     @PutMapping("/inactive-account")
@@ -62,21 +60,21 @@ public class UserController {
         userService.addPersonalTrainerAccount(username, personalTrainerUpdateSpecializationDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/latest-fitness-test")
+    @GetMapping("/Client/latest-fitness-test")
     public ResponseEntity<FitnessTestDto> getLatestFitnessTest() {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
         FitnessTestDto latestFitnessTest = userService.getLatestFitnessTest(username);
         return new ResponseEntity<>(latestFitnessTest, HttpStatus.OK);
     }
-    @GetMapping("/all-fitness-test")
+    @GetMapping("/Client/all-fitness-test")
     public ResponseEntity<List<FitnessTestDto>> getAllFitnessTest() {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
         List<FitnessTestDto> allFitnessTest = userService.getAllFitnessTest(username);
         return new ResponseEntity<>(allFitnessTest, HttpStatus.OK);
     }
-    @GetMapping("/daily-plan")
+    @GetMapping("/Client/daily-plan")
     public ResponseEntity<DailyPlanDto> getDailyPlan(@RequestParam("date") LocalDate date) {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
@@ -84,7 +82,7 @@ public class UserController {
         return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
     }
 
-    @GetMapping("/daily-plan-week")
+    @GetMapping("/Client/daily-plan-week")
     public ResponseEntity<DailyPlanDto> getNext7DailyPlan(@RequestParam("date") LocalDate date) {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
@@ -92,9 +90,19 @@ public class UserController {
         return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
     }
 
+    @PatchMapping("/Client/daily-plan-done")
+    public ResponseEntity<DailyPlanDto> setDailyPlanAsDone(@RequestParam("date") LocalDate date) {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        DailyPlanDto dailyPlanDto = userService.setDailyPlanAsDone(username, date);
+        return new ResponseEntity<>(dailyPlanDto, HttpStatus.OK);
+    }
 
-
-
-
-
+    @DeleteMapping("/delete")
+    public ResponseEntity<UserDto> deleteUser() {
+        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userName = user.getUsername();
+        userService.deleteUser(userName);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @Service
@@ -43,37 +44,45 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         this.dailyPlanMapper = dailyPlanMapper;
     }
     @Override
-    public FitnessTestDto scheduleFitnessTest(FitnessTestCreateDto fitnessTestCreateDto){
+    public FitnessTestDto scheduleFitnessTest(String clientUsername, LocalDate date){
 
         UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = loggedUser.getUsername();
-        User ptuser = userRepository.findByUsername(personalTrainerUsername).orElseThrow();
-        PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(ptuser.getId());
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
 
-        User user = userRepository.findByUsername(fitnessTestCreateDto.getClientUsername()).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+
+        if (date.isBefore(LocalDate.now())){
+            throw new InvalidDate("Invalid date");
+        }
 
         FitnessTest userFitnessTest = FitnessTest.builder()
-                .date(fitnessTestCreateDto.getDate())
+                .date(date)
                 .imc(0)
                 .bodyFat(0)
                 .height(0)
                 .weight(0)
-                .user(user)
+                .client(client)
                 .personalTrainer(personalTrainer)
                 .build();
         fitnessTestRepository.save(userFitnessTest);
         return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
     }
     @Override
-    public FitnessTestDto createFitnessTest(FitnessTestCreateDto fitnessTestCreateDto){
+    public FitnessTestDto createFitnessTest(FitnessTestDto fitnessTestDto){
 
-        UserDetails personalTrainerUserDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String personalTrainerUsername = personalTrainerUserDetails.getUsername();
-        User personalTrainerUser = userRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
-        PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
+        UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String personalTrainerUsername = loggedUser.getUsername();
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        //PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
 
-        String clientUsername = fitnessTestCreateDto.getClientUsername();
-        User clientUser = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        String clientUsername = fitnessTestDto.getClientUsername();
+
+        //String clientUsername = fitnessTestCreateDto.getClientUsername();
+        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        Long clientId = client.getId();
+
+        FitnessTest fitnessTest = fitnessTestRepository.findCurrentDateFTByClientUsername(clientId).orElse(new FitnessTest());
 
 
 
@@ -102,19 +111,19 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
  */
 
-           FitnessTest userFitnessTest = FitnessTest.builder()
-                    .date(fitnessTestCreateDto.getDate())
-                    .imc(fitnessTestCreateDto.getImc())
-                    .bodyFat(fitnessTestCreateDto.getBodyFat())
-                    .height(fitnessTestCreateDto.getHeight())
-                    .weight(fitnessTestCreateDto.getWeight())
-                    .goal(fitnessTestCreateDto.getGoal())
-                    .user(clientUser)
+        fitnessTest = FitnessTest.builder()
+                    .date(fitnessTestDto.getDate())
+                    .imc(fitnessTestDto.getImc())
+                    .bodyFat(fitnessTestDto.getBodyFat())
+                    .height(fitnessTestDto.getHeight())
+                    .weight(fitnessTestDto.getWeight())
+                    .goal(fitnessTestDto.getGoal())
+                    .client(client)
                     .personalTrainer(personalTrainer)
                     .build();
 
-            fitnessTestRepository.save(userFitnessTest);
-        return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
+            fitnessTestRepository.save(fitnessTest);
+        return fitnessTestMapper.fromEntityToFitnessTestDto(fitnessTest);
     }
 
     @Override

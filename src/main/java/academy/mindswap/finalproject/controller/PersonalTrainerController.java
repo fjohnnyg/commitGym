@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/v2/personal-trainer")
 public class PersonalTrainerController {
@@ -25,8 +27,9 @@ public class PersonalTrainerController {
     }
 
     @PostMapping("/schedule-fitness-test")
-    public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto){
-        FitnessTestDto fitnessTestDto = personalTrainerService.scheduleFitnessTest(fitnessTestCreateDto);
+    public ResponseEntity<FitnessTestDto> scheduleFitnessTest(@RequestBody FitnessTestPTRequest fitnessTestPTRequest){
+        FitnessTestDto fitnessTestDto = personalTrainerService.scheduleFitnessTest(fitnessTestPTRequest.getClientUsername(), fitnessTestPTRequest.getDate());
+
         return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
     }
 
@@ -70,9 +73,9 @@ public class PersonalTrainerController {
     }
 
     @PostMapping("/create-fitness-test")
-    public ResponseEntity<FitnessTestDto> createFitnessTest(@RequestBody FitnessTestCreateDto fitnessTestCreateDto) {
-        FitnessTestDto fitnessTestDto = personalTrainerService.createFitnessTest(fitnessTestCreateDto);
-        return new ResponseEntity<>(fitnessTestDto, HttpStatus.ACCEPTED);
+    public ResponseEntity<FitnessTestDto> createFitnessTest(@RequestBody FitnessTestDto fitnessTestDto) {
+        FitnessTestDto fitnessTestCreated = personalTrainerService.createFitnessTest(fitnessTestDto);
+        return new ResponseEntity<>(fitnessTestCreated, HttpStatus.ACCEPTED);
     }
 
 

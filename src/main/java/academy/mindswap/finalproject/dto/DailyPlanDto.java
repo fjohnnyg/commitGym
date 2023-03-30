@@ -17,6 +17,7 @@ public class DailyPlanDto {
     private LocalDate date;
     private String clientUsername;
     private List<Long> workoutsId;
+    private Boolean done;
 
 
 }

@@ -11,7 +11,7 @@ public interface UserService {
 
     UserDto getProfile(String username);
     UserDto updateUserProfile(String username, UserDto userDto);
-    FitnessTestDto scheduleMyFitnessTest(String username, FitnessTestCreateDto fitnessTestCreateDto);
+    FitnessTestDto scheduleMyFitnessTest(String personalTrainerUsername, LocalDate date);
     void inactivateAccount(String username);
     void addPersonalTrainerAccount(String username, PersonalTrainerUpdateSpecializationDto personalTrainerUpdateSpecializationDto);
     FitnessTestDto getLatestFitnessTest(String username);
@@ -21,4 +21,9 @@ public interface UserService {
     DailyPlanDto getDailyPlan(String username, LocalDate date);
 
     DailyPlanDto getNext7DailyPlan(String username, LocalDate date);
+
+    DailyPlanDto setDailyPlanAsDone(String username, LocalDate date);
+
+    void deleteUser(String username);
+
 }

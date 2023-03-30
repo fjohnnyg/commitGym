@@ -1,6 +1,5 @@
 package academy.mindswap.finalproject.service;
 
-import academy.mindswap.finalproject.dto.FitnessTestCreateDto;
 import academy.mindswap.finalproject.mapper.FitnessTestMapper;
 import academy.mindswap.finalproject.model.entities.FitnessTest;
 import academy.mindswap.finalproject.repository.FitnessTestRepository;
