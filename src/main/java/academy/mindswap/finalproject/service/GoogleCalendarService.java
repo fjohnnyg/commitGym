@@ -38,13 +38,13 @@ public class GoogleCalendarService {
                 .setLocation("800 Howard St., San Francisco, CA 94103")
                 .setDescription("A chance to hear more about Google's developer products.");
 
-        DateTime startDateTime = new DateTime("2015-05-28T09:00:00-07:00");
+        DateTime startDateTime = new DateTime("2023-05-28T09:00:00-07:00");
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
                 .setTimeZone("America/Los_Angeles");
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime("2015-05-28T17:00:00-07:00");
+        DateTime endDateTime = new DateTime("2023-05-29T17:00:00-07:00");
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("America/Los_Angeles");
