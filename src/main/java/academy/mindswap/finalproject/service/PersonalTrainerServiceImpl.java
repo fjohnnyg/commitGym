@@ -71,13 +71,6 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
                 .build();
         fitnessTestRepository.save(userFitnessTest);
 
-        try {
-            googleCalendarService.addEventToMyCalendar();
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
         return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
     }

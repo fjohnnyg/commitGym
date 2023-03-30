@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -32,9 +34,10 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final DailyPlanRepository dailyPlanRepository;
     private final DailyPlanMapper dailyPlanMapper;
+    private final GoogleCalendarService googleCalendarService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, FitnessTestRepository fitnessTestRepository, PersonalTrainerRepository personalTrainerRepository, ClientRepository clientRepository, UserMapper userMapper, JwtService jwtService, FitnessTestMapper fitnessTestMapper, PersonalTrainerMapper personalTrainerMapper, PasswordEncoder passwordEncoder, DailyPlanRepository dailyPlanRepository, DailyPlanMapper dailyPlanMapper) {
+    public UserServiceImpl(UserRepository userRepository, FitnessTestRepository fitnessTestRepository, PersonalTrainerRepository personalTrainerRepository, ClientRepository clientRepository, UserMapper userMapper, JwtService jwtService, FitnessTestMapper fitnessTestMapper, PersonalTrainerMapper personalTrainerMapper, PasswordEncoder passwordEncoder, DailyPlanRepository dailyPlanRepository, DailyPlanMapper dailyPlanMapper, GoogleCalendarService googleCalendarService) {
         this.userRepository = userRepository;
         this.fitnessTestRepository = fitnessTestRepository;
         this.personalTrainerRepository = personalTrainerRepository;
@@ -45,6 +48,7 @@ public class UserServiceImpl implements UserService{
         this.passwordEncoder = passwordEncoder;
         this.dailyPlanRepository = dailyPlanRepository;
         this.dailyPlanMapper = dailyPlanMapper;
+        this.googleCalendarService = googleCalendarService;
     }
     @Override
     @Cacheable(value = "itemCache")
@@ -84,6 +88,15 @@ public class UserServiceImpl implements UserService{
                 .personalTrainer(personalTrainer)
                 .build();
         fitnessTestRepository.save(clientFitnessTest);
+
+        try {
+            googleCalendarService.addEventToMyCalendar();
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return fitnessTestMapper.fromEntityToFitnessTestDto(clientFitnessTest);
     }
     @Override
