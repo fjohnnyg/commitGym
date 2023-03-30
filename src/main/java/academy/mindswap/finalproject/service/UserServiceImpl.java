@@ -9,6 +9,7 @@ import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService{
         this.dailyPlanMapper = dailyPlanMapper;
     }
     @Override
+    @Cacheable(value = "itemCache")
     public UserDto getProfile(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         return userMapper.fromUserEntityToUserDto(user);
