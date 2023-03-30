@@ -3,6 +3,8 @@ package academy.mindswap.finalproject.model.entities;
 import academy.mindswap.finalproject.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +23,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,13 +48,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "user")
-    private List<FitnessTest> fitnessTests;
+/*    @OneToMany(mappedBy = "user")
+    private List<FitnessTest> fitnessTests;*/
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Client client;
 
@@ -65,6 +68,9 @@ public class User implements UserDetails {
         }
         return authorities;
     }
+
+    @Column(nullable = false)
+    private boolean deleted = Boolean.FALSE;
 
     @Override
     public String getPassword() {

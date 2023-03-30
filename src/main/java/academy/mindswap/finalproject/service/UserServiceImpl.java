@@ -9,6 +9,8 @@ import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -60,27 +62,31 @@ public class UserServiceImpl implements UserService{
         return userMapper.fromUserEntityToUserDto(user);
     }
     @Override
-    public FitnessTestDto scheduleMyFitnessTest(String username, FitnessTestCreateDto fitnessTestCreateDto) {
-        User clientUser = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
-        User personalTrainerUser = userRepository.findByUsername(fitnessTestCreateDto.getPersonalTrainerUsername()).orElseThrow(UserNotFoundException::new);
+    public FitnessTestDto scheduleMyFitnessTest(String personalTrainerUsername, LocalDate date) {
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() == null)
+            throw new RuntimeException("User not authenticated");
+        UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String clientUsername = loggedUser.getUsername();
+        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);/*(fitnessTestCreateDto.getPersonalTrainerUsername())*/
 
-        if (fitnessTestCreateDto.getDate().isBefore(LocalDate.now())){
+        if (date.isBefore(LocalDate.now()) || date == null){
             throw new InvalidDate("Invalid date");
         }
 
-        PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
-        FitnessTest userFitnessTest = FitnessTest.builder()
-                .date(fitnessTestCreateDto.getDate())
+        FitnessTest clientFitnessTest = FitnessTest.builder()
+                .date(date)
                 .imc(0)
                 .bodyFat(0)
                 .height(0)
                 .weight(0)
-                .user(clientUser)
+                .client(client)
                 .personalTrainer(personalTrainer)
                 .build();
-        fitnessTestRepository.save(userFitnessTest);
-        return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
+        fitnessTestRepository.save(clientFitnessTest);
+        return fitnessTestMapper.fromEntityToFitnessTestDto(clientFitnessTest);
     }
+
     @Override
     public void inactivateAccount(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
@@ -119,25 +125,26 @@ public class UserServiceImpl implements UserService{
     @Override
     public FitnessTestDto getLatestFitnessTest(String username) {
 
-        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
-        if(user.getFitnessTests() == null){
+        if(client.getFitnessTests() == null){
             throw new FitnessTestNotFound("You don't have a fitness test associated to your account");
         }
 
-        FitnessTest fitnessTest = fitnessTestRepository.findLatestByUserId(user.getId()).orElseThrow(UserNotFoundException::new);
+        FitnessTest fitnessTest = fitnessTestRepository.findLatestByUserId(client.getId()).orElseThrow(UserNotFoundException::new);
 
         return fitnessTestMapper.fromEntityToFitnessTestDto(fitnessTest);
     }
     @Override
     public List<FitnessTestDto>  getAllFitnessTest(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
-        if(user.getFitnessTests() == null){
+        Client client = clientRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+
+        if(client.getFitnessTests() == null){
             throw new FitnessTestNotFound("You don't have a fitness test associated to your account");
         }
 
-        List<FitnessTest> fitnessTest = fitnessTestRepository.findFirst20ByUserId(user.getId());
+        List<FitnessTest> fitnessTest = fitnessTestRepository.findFirst20ByUserId(client.getId());
 
         return fitnessTestMapper.fromEntityListToFitnessTestDtoList(fitnessTest);
     }
@@ -156,5 +163,20 @@ public class UserServiceImpl implements UserService{
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
     }
 
+    @Override
+    public DailyPlanDto setDailyPlanAsDone(String username, LocalDate date) {
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUserId(user.getId());
+        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
+        dailyPlan.setDone(true);
+        dailyPlanRepository.save(dailyPlan);
+        return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
+    }
 
+    @Override
+    public void deleteUser(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Long userId = user.getId();
+        userRepository.deleteById(userId);
+    }
 }

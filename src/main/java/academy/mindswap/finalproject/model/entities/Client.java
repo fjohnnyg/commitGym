@@ -24,11 +24,9 @@ public class Client  {
     @OneToOne
     private User user;
 
-    /*
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     private List<FitnessTest> fitnessTests;
 
-     */
     @OneToMany(mappedBy = "client", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlans;
 
