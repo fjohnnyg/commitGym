@@ -8,7 +8,6 @@ import academy.mindswap.finalproject.model.enums.Role;
 import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -143,20 +142,20 @@ public class UserServiceImpl implements UserService{
         Client client = clientRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         if(client.getFitnessTests() == null){
-            throw new FitnessTestNotFound("You don't have a fitness test associated to your account");
+            throw new FitnessTestNotFoundException();
         }
 
-        FitnessTest fitnessTest = fitnessTestRepository.findLatestByUserId(client.getId()).orElseThrow(UserNotFoundException::new);
+        FitnessTest fitnessTest = fitnessTestRepository.findLatestByUserId(client.getId()).orElseThrow(FitnessTestNotFoundException::new);
 
         return fitnessTestMapper.fromEntityToFitnessTestDto(fitnessTest);
     }
     @Override
     public List<FitnessTestDto>  getAllFitnessTest(String username) {
 
-        Client client = clientRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUsername(username).orElseThrow(ClientNotFoundException::new);
 
         if(client.getFitnessTests() == null){
-            throw new FitnessTestNotFound("You don't have a fitness test associated to your account");
+            throw new FitnessTestNotFoundException();
         }
 
         List<FitnessTest> fitnessTest = fitnessTestRepository.findFirst20ByUserId(client.getId());
@@ -167,14 +166,14 @@ public class UserServiceImpl implements UserService{
     public DailyPlanDto getDailyPlan(String username, LocalDate date) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(user.getId());
-        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
+        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(DailyPlanNotFoundException::new);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
     }
     @Override
     public DailyPlanDto getNext7DailyPlan(String username, LocalDate date) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(user.getId());
-        DailyPlan dailyPlan = dailyPlanRepository.findFirst7ByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
+        DailyPlan dailyPlan = dailyPlanRepository.findFirst7ByUserIdAndDate(client.getId(),date).orElseThrow(DailyPlanNotFoundException::new);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);
     }
 
@@ -182,7 +181,7 @@ public class UserServiceImpl implements UserService{
     public DailyPlanDto setDailyPlanAsDone(String username, LocalDate date) {
         User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         Client client = clientRepository.findByUserId(user.getId());
-        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(UserNotFoundException::new);
+        DailyPlan dailyPlan = dailyPlanRepository.findByUserIdAndDate(client.getId(),date).orElseThrow(DailyPlanNotFoundException::new);
         dailyPlan.setDone(true);
         dailyPlanRepository.save(dailyPlan);
         return dailyPlanMapper.fromEntityToDailyPlanDto(dailyPlan);

@@ -76,7 +76,7 @@ public class GenericExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User without authority");
     }
 
-    @ExceptionHandler({FitnessTestNotFound.class})
+    @ExceptionHandler({FitnessTestNotFoundException.class})
     public ResponseEntity<String> handleFitnessTestNotFound(Exception ex) {
         logger.error("Resource not found: " + ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Fitness Test not found");
@@ -102,6 +102,18 @@ public class GenericExceptionHandler {
     public ResponseEntity<String> handleWorkoutDoesNotExist(Exception ex) {
         logger.error("Resource not found: " + ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Workout does not exist");
+    }
+
+    @ExceptionHandler({PersonalTrainerNotFoundException.class})
+    public ResponseEntity<String> handlePersonalTrainerNotFound(Exception ex) {
+        logger.error("Resource not found: " + ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Personal trainer not found");
+    }
+
+    @ExceptionHandler({ClientNotFoundException.class})
+    public ResponseEntity<String> handleClientNotFound(Exception ex) {
+        logger.error("Resource not found: " + ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Client not found");
     }
 
 

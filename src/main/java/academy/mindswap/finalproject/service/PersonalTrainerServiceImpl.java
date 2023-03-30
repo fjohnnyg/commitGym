@@ -52,9 +52,9 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
         UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = loggedUser.getUsername();
-        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(PersonalTrainerNotFoundException::new);
 
-        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(ClientNotFoundException::new);
 
         if (date.isBefore(LocalDate.now())){
             throw new InvalidDate("Invalid date");
@@ -79,10 +79,10 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
 
         UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = loggedUser.getUsername();
-        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
+        PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(PersonalTrainerNotFoundException::new);
 
         String clientUsername = fitnessTestDto.getClientUsername();
-        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        Client client = clientRepository.findByUsername(clientUsername).orElseThrow(ClientNotFoundException::new);
         Long clientId = client.getId();
 
         FitnessTest scheduledFitnessTest = fitnessTestRepository.findCurrentDateFTByClientId(clientId).get();
@@ -148,7 +148,7 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
     @Override
     public DailyPlanDto createDailyPlan(DailyPlanDto dailyPlanDto, String personalTrainerUsername) {
         String clientUsername = dailyPlanDto.getClientUsername();
-        User userClient = userRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
+        User userClient = userRepository.findByUsername(clientUsername).orElseThrow(ClientNotFoundException::new);
         Client client = clientRepository.findByUserId(userClient.getId());
 
         if(client.getDailyPlans().contains(dailyPlanDto.getDate())){
