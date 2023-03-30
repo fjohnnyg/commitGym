@@ -32,6 +32,8 @@ public class SecurityConfiguration {
                     //.requestMatchers("/api/v2/user/**","/api/v2/personal-trainer/**").authenticated()
                     .requestMatchers("/api/v2/user/**")
                         .hasAnyAuthority("Client", "Personal Trainer")
+                    .requestMatchers("/api/v2/user/client/**")
+                        .hasAnyAuthority("Client")
                     .requestMatchers("/api/v2/personal-trainer/**")
                         .hasAnyAuthority("Personal Trainer")
                 .anyRequest().authenticated()
