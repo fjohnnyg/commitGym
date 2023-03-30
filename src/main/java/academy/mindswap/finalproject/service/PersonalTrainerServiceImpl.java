@@ -74,11 +74,8 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         UserDetails loggedUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String personalTrainerUsername = loggedUser.getUsername();
         PersonalTrainer personalTrainer = personalTrainerRepository.findByUsername(personalTrainerUsername).orElseThrow(UserNotFoundException::new);
-        //PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainerUser.getId());
 
         String clientUsername = fitnessTestDto.getClientUsername();
-
-        //String clientUsername = fitnessTestCreateDto.getClientUsername();
         Client client = clientRepository.findByUsername(clientUsername).orElseThrow(UserNotFoundException::new);
         Long clientId = client.getId();
 

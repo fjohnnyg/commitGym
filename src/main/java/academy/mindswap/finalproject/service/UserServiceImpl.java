@@ -72,7 +72,6 @@ public class UserServiceImpl implements UserService{
             throw new InvalidDate("Invalid date");
         }
 
-        //PersonalTrainer personalTrainer = personalTrainerRepository.findByUserId(personalTrainer.getId());
         FitnessTest clientFitnessTest = FitnessTest.builder()
                 .date(date)
                 .imc(0)
