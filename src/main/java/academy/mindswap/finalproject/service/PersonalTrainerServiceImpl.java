@@ -12,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -28,9 +30,10 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
     ClientRepository clientRepository;
     DailyPlanRepository dailyPlanRepository;
     DailyPlanMapper dailyPlanMapper;
+    GoogleCalendarService googleCalendarService;
 
     @Autowired
-    public PersonalTrainerServiceImpl(UserRepository userRepository, PersonalTrainerRepository personalTrainerRepository, FitnessTestRepository fitnessTestRepository, FitnessTestMapper fitnessTestMapper, ExerciseMapper exerciseMapper, ExerciseRepository exerciseRepository, WorkoutRepository workoutRepository, WorkoutMapper workoutMapper, ClientRepository clientRepository, DailyPlanRepository dailyPlanRepository, DailyPlanMapper dailyPlanMapper) {
+    public PersonalTrainerServiceImpl(UserRepository userRepository, PersonalTrainerRepository personalTrainerRepository, FitnessTestRepository fitnessTestRepository, FitnessTestMapper fitnessTestMapper, ExerciseMapper exerciseMapper, ExerciseRepository exerciseRepository, WorkoutRepository workoutRepository, WorkoutMapper workoutMapper, ClientRepository clientRepository, DailyPlanRepository dailyPlanRepository, DailyPlanMapper dailyPlanMapper, GoogleCalendarService googleCalendarService) {
         this.userRepository = userRepository;
         this.personalTrainerRepository = personalTrainerRepository;
         this.fitnessTestRepository = fitnessTestRepository;
@@ -42,6 +45,7 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
         this.clientRepository = clientRepository;
         this.dailyPlanRepository = dailyPlanRepository;
         this.dailyPlanMapper = dailyPlanMapper;
+        this.googleCalendarService = googleCalendarService;
     }
     @Override
     public FitnessTestDto scheduleFitnessTest(String clientUsername, LocalDate date){
@@ -66,6 +70,8 @@ public class PersonalTrainerServiceImpl implements PersonalTrainerService {
                 .personalTrainer(personalTrainer)
                 .build();
         fitnessTestRepository.save(userFitnessTest);
+
+
         return fitnessTestMapper.fromEntityToFitnessTestDto(userFitnessTest);
     }
     @Override
