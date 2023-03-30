@@ -1,7 +1,6 @@
 package academy.mindswap.finalproject.controller;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
@@ -22,7 +21,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 
-import static academy.mindswap.finalproject.GoogleCalendarApi.CalendarQuickstart.getCredentials;
+//import static academy.mindswap.finalproject.GoogleCalendarApi.CalendarQuickstart.getCredentials;
 
 @RestController
 @RequestMapping("https://www.googleapis.com/calendar/v3/calendars/calendarId/")
@@ -32,15 +31,14 @@ public class CalendarController {
     private static final String SERVICE_ACCOUNT_EMAIL = "<YOUR_SERVICE_ACCOUNT_EMAIL>";
     private static final String SERVICE_ACCOUNT_PKCS12_FILE_PATH = "path/to/your/key.p12";
     private static final String CALENDAR_ID = "<YOUR_CALENDAR_ID>";
-
+/*
     @PostMapping("/events")
         public ResponseEntity<String> createEvent(@RequestBody Event eventBody) {
         try {
             // Create an instance of the Calendar service
             NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-            HttpRequestInitializer httpRequestInitializer = getCredentials(httpTransport).getRequestInitializer();
-            Calendar calendarService = new Calendar.Builder(httpTransport, jsonFactory, )
+            Calendar calendarService = new Calendar.Builder(httpTransport, jsonFactory, getCredentials(httpTransport).getRequestInitializer())
                     .setApplicationName(APPLICATION_NAME)
                     .build();
 
@@ -63,5 +61,7 @@ public class CalendarController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+ */
 
 }

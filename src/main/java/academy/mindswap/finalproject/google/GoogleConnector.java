@@ -1,4 +1,4 @@
-package academy.mindswap.finalproject.GoogleCalendarApi;
+package academy.mindswap.finalproject.google;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 /* class to demonstarte use of Calendar events list API */
-public class CalendarQuickstart {
+public class GoogleConnector {
     /**
      * Application name.
      */
@@ -57,7 +57,7 @@ public class CalendarQuickstart {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException {
         // Load client secrets.
-        InputStream in = CalendarQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        InputStream in = GoogleConnector.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -76,7 +76,7 @@ public class CalendarQuickstart {
         return credential;
     }
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
+    public static Calendar googleConnection() throws GeneralSecurityException, IOException {
         // Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Calendar service =
@@ -84,6 +84,10 @@ public class CalendarQuickstart {
                         .setApplicationName(APPLICATION_NAME)
                         .build();
 
+        return service;
+    }
+
+        /*
         // List the next 10 events from the primary calendar.
         DateTime now = new DateTime(System.currentTimeMillis());
         Events events = service.events().list("primary")
@@ -105,5 +109,7 @@ public class CalendarQuickstart {
                 System.out.printf("%s (%s)\n", event.getSummary(), start);
             }
         }
-    }
+        }
+         */
+
 }

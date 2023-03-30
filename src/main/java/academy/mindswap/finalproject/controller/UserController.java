@@ -103,6 +103,7 @@ public class UserController {
         UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String userName = user.getUsername();
         userService.deleteUser(userName);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
