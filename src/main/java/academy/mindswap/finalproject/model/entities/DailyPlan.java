@@ -22,6 +22,9 @@ public class DailyPlan {
     @Column(nullable = false)
    private LocalDate date;
 
+    @Column
+    private Boolean done;
+
     @ManyToOne(targetEntity = Client.class, fetch = FetchType.EAGER)
     private Client client;
 
