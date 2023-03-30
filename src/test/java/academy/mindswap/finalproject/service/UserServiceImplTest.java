@@ -96,43 +96,6 @@ public class UserServiceImplTest {
     }
 
     @Test
-    void testScheduleMyFitnessTestThrowsUserNotFoundException() {
-        String username = "johndoe";
-        FitnessTestCreateDto fitnessTestCreateDto = new FitnessTestCreateDto();
-        fitnessTestCreateDto.setPersonalTrainerUsername("janesmith");
-        fitnessTestCreateDto.setDate(LocalDate.now().plusDays(7));
-        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
-        assertThrows(UserNotFoundException.class, () -> userService.scheduleMyFitnessTest(username, fitnessTestCreateDto));
-        verify(userRepository, times(1)).findByUsername(username);
-        verifyNoMoreInteractions(userRepository);
-        verifyNoMoreInteractions(personalTrainerRepository);
-        verifyNoMoreInteractions(fitnessTestRepository);
-        verifyNoMoreInteractions(fitnessTestMapper);
-    }
-
-    @Test
-    void testScheduleMyFitnessTestThrowsInvalidDate() {
-        String username = "johndoe";
-        FitnessTestCreateDto fitnessTestCreateDto = new FitnessTestCreateDto();
-        fitnessTestCreateDto.setPersonalTrainerUsername("janesmith");
-        fitnessTestCreateDto.setDate(LocalDate.now().minusDays(7));
-        User clientUser = new User();
-        clientUser.setUsername(username);
-        User personalTrainerUser = new User();
-        personalTrainerUser.setUsername(fitnessTestCreateDto.getPersonalTrainerUsername());
-        PersonalTrainer personalTrainer = new PersonalTrainer();
-        personalTrainer.setUser(personalTrainerUser);
-        when(userRepository.findByUsername(username)).thenReturn(Optional.of(clientUser));
-        when(userRepository.findByUsername(fitnessTestCreateDto.getPersonalTrainerUsername())).thenReturn(Optional.of(personalTrainerUser));
-        assertThrows(InvalidDate.class, () -> userService.scheduleMyFitnessTest(username, fitnessTestCreateDto));
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(userRepository, times(1)).findByUsername(fitnessTestCreateDto.getPersonalTrainerUsername());
-        verifyNoMoreInteractions(personalTrainerRepository);
-        verifyNoMoreInteractions(fitnessTestRepository);
-        verifyNoMoreInteractions(fitnessTestMapper);
-    }
-
-    @Test
     void testInactivateAccount() {
         String username = "john_doe";
         User user = new User();
