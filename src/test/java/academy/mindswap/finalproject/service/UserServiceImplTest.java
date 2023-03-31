@@ -121,9 +121,9 @@ public class UserServiceImplTest {
     @Test
     void testGetLatestFitnessTestThrowsUserNotFoundException() {
         String username = "john_doe";
-        when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
+        when(clientRepository.findByUsername(username)).thenReturn(Optional.empty());
         assertThrows(UserNotFoundException.class, () -> userService.getLatestFitnessTest(username));
-        verify(userRepository, times(1)).findByUsername(username);
+        verify(clientRepository, times(1)).findByUsername(username);
         verifyNoMoreInteractions(fitnessTestRepository);
         verifyNoMoreInteractions(fitnessTestMapper);
     }

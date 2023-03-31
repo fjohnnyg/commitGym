@@ -43,7 +43,7 @@ public class GoogleCalendarService {
                 .setTimeZone("America/Los_Angeles");
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime("2023-04-01T17:00:00-07:00");
+        DateTime endDateTime = new DateTime("2023-03-31T17:00:00-09:00");
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("America/Los_Angeles");
