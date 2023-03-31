@@ -8,6 +8,20 @@ import org.mapstruct.Mapper;
 public interface WorkoutMapper {
 
     Workout fromWorkoutDtoToEntity(WorkoutDto workoutDto);
-    WorkoutDto fromEntityToWorkoutDto(Workout workout);
+    default WorkoutDto fromEntityToWorkoutDto(Workout workout) {
+        if ( workout == null ) {
+            return null;
+        }
+
+        WorkoutDto.WorkoutDtoBuilder workoutDto = WorkoutDto.builder();
+
+        workoutDto.exerciseName(workout.getExercise().getName());
+        workoutDto.set( workout.getSet() );
+        workoutDto.rep( workout.getRep() );
+        workoutDto.rest( workout.getRest() );
+        workoutDto.load( workout.getLoad() );
+
+        return workoutDto.build();
+    }
 
 }
