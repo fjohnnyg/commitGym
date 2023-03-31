@@ -26,34 +26,13 @@ public class UserDto implements Serializable {
     @NotBlank(message = "Must have a username")
     private String username;
 
-    /*
-    @NotBlank(message = "Must have a birth date")
-    private String birthDate;
-     */
-
     @Email(message = "Email must be valid")
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@(.+)$", message = "Invalid email")
     private String email;
 
-    /*
-    @NotBlank(message = "Must have a role")
-    private Role role;
-
-     */
-
-
-
     @Min(value = 8, message = "Password must be at least 8 characters long")
     @NotBlank (message = "Must have password")
     private String password;
-
-
-
-    /*
-    @NotBlank (message = "Must have a specialization")
-    private Specializations specializations;
-
-     */
 
 
 }

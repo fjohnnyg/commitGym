@@ -6,6 +6,7 @@ import academy.mindswap.finalproject.auth.RegisterRequest;
 import academy.mindswap.finalproject.dto.PersonalTrainerCreateDto;
 import academy.mindswap.finalproject.dto.UserCreateDto;
 import academy.mindswap.finalproject.exceptions.InactiveUser;
+import academy.mindswap.finalproject.exceptions.SpecializationDoesNotExist;
 import academy.mindswap.finalproject.exceptions.UserNotFoundException;
 import academy.mindswap.finalproject.model.entities.Client;
 import academy.mindswap.finalproject.model.entities.PersonalTrainer;
@@ -63,6 +64,15 @@ public class AuthenticationService {
         saveUserToken(personalTrainerUser, jwtToken);
         PersonalTrainer personalTrainer = new PersonalTrainer(personalTrainerUser);
         personalTrainer.setSpecializations(request.getSpecializations());
+
+        for (Specializations specializations : request.getSpecializations()) {
+            String specialization = String.valueOf(specializations);
+            try {
+                Specializations specializationCheck = Specializations.valueOf(specialization);
+            } catch (SpecializationDoesNotExist ex) {
+            }
+        }
+
         personalTrainerRepository.save(personalTrainer);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

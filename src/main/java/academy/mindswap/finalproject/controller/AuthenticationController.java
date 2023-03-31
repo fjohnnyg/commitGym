@@ -11,10 +11,7 @@ import academy.mindswap.finalproject.model.enums.Role;
 import academy.mindswap.finalproject.repository.UserRepository;
 import academy.mindswap.finalproject.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +24,6 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
     private final UserRepository userRepository;
-
 
     @PostMapping("/register-client")
     public ResponseEntity<AuthenticationResponse> registerClient(@RequestBody UserCreateDto request) {

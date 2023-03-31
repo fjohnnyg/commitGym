@@ -29,22 +29,21 @@ public class GoogleCalendarService {
         calendarService.events().insert(calendarId, newEvent).execute();
         System.out.printf("Event created: %s\n", newEvent.getHtmlLink());
 
-
     }
 
     private Event createEvent(){
         Event event = new Event()
                 .setSummary("Google I/O 2015")
                 .setLocation("800 Howard St., San Francisco, CA 94103")
-                .setDescription("A chance to hear more about Google's developer products.");
+                .setDescription("Fitness Test.");
 
-        DateTime startDateTime = new DateTime("2023-05-28T09:00:00-07:00");
+        DateTime startDateTime = new DateTime("2023-03-31T09:00:00-08:00");
         EventDateTime start = new EventDateTime()
                 .setDateTime(startDateTime)
                 .setTimeZone("America/Los_Angeles");
         event.setStart(start);
 
-        DateTime endDateTime = new DateTime("2023-05-29T17:00:00-07:00");
+        DateTime endDateTime = new DateTime("2023-04-01T17:00:00-07:00");
         EventDateTime end = new EventDateTime()
                 .setDateTime(endDateTime)
                 .setTimeZone("America/Los_Angeles");
@@ -54,8 +53,8 @@ public class GoogleCalendarService {
         event.setRecurrence(Arrays.asList(recurrence));
 
         EventAttendee[] attendees = new EventAttendee[] {
-                new EventAttendee().setEmail("lpage@example.com"),
-                new EventAttendee().setEmail("sbrin@example.com"),
+                new EventAttendee().setEmail("dsdanielaspitzer@gmail.com"),
+                new EventAttendee().setEmail("filbrandao87@gmail.com"),
         };
         event.setAttendees(Arrays.asList(attendees));
 

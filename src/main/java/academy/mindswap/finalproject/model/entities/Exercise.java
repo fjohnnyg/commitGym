@@ -31,15 +31,4 @@ public class Exercise {
     @OneToOne(mappedBy = "exercise", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Workout workout;
 
-
-/*
-    @ManyToMany (targetEntity = Set.class, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-    @JoinTable(name = "exercise_sets",
-            joinColumns = {@JoinColumn(name = "exercise_id")},
-            inverseJoinColumns = {@JoinColumn(name = "set_id")})
-
-    private List<Set> setList = new ArrayList<>();
-
- */
-
 }

@@ -35,16 +35,12 @@ public class PersonalTrainerController {
 
     @PostMapping("/create-exercise")
     public ResponseEntity<ExerciseDto> createExercise(@RequestBody ExerciseDto exerciseDto) {
-        //UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //String personalTrainerUsername = user.getUsername();
         ExerciseDto exercise = personalTrainerService.createExercise(exerciseDto);
         return new ResponseEntity<>(exercise, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/create-workout")
     public ResponseEntity<WorkoutDto> createWorkout(@RequestBody WorkoutDto workoutDto) {
-        //UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        //String personalTrainerUsername = user.getUsername();
         WorkoutDto workout = personalTrainerService.createWorkout(workoutDto);
         return new ResponseEntity<>(workout, HttpStatus.ACCEPTED);
     }

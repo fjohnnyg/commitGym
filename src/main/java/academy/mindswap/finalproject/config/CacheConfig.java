@@ -48,7 +48,6 @@ public class CacheConfig {
                 .disableCachingNullValues()
                         .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(contextAwareRedisSerializer));
 
-
         RedisCacheManager redisCacheManager = RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
                 .cacheDefaults(redisCacheConfiguration)
                 .build();

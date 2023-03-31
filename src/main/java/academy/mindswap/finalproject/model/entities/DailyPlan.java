@@ -28,7 +28,6 @@ public class DailyPlan {
     @ManyToOne(targetEntity = Client.class, fetch = FetchType.EAGER)
     private Client client;
 
-    //(mappedBy = "dailyPlansPrescribed", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 
     @ManyToOne(targetEntity = PersonalTrainer.class, fetch = FetchType.EAGER)
     private PersonalTrainer personalTrainers;
@@ -40,10 +39,5 @@ public class DailyPlan {
             inverseJoinColumns = {@JoinColumn(name = "daily_plans_id")})
     private List<Workout> workouts = new ArrayList<>();
 
-/*
-    @ManyToOne(targetEntity = Workout.class, fetch = FetchType.EAGER)
-    private List<Workout> workouts;
-
- */
 
 }

@@ -5,15 +5,12 @@ import academy.mindswap.finalproject.exceptions.*;
 import academy.mindswap.finalproject.mapper.*;
 import academy.mindswap.finalproject.model.entities.*;
 import academy.mindswap.finalproject.model.enums.Role;
-import academy.mindswap.finalproject.model.enums.Specializations;
 import academy.mindswap.finalproject.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.*;
 

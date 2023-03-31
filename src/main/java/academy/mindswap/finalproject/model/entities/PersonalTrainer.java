@@ -27,7 +27,6 @@ public class PersonalTrainer {
     @OneToMany(mappedBy = "personalTrainer")
     private List<FitnessTest> fitnessTests;
 
-    //targetEntity = DailyPlan.class, fetch = FetchType.EAGER)
     @OneToMany(mappedBy = "personalTrainers", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private List<DailyPlan> dailyPlansPrescribed;
 

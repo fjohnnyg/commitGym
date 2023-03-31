@@ -117,7 +117,6 @@ public class GenericExceptionHandler {
     }
 
 
-
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<String> handleGenericException(Exception ex) {
         logger.error("Unknown Exception: " + ex);
